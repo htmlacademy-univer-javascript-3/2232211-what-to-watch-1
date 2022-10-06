@@ -23,18 +23,20 @@ export default function PlayerPage({isPaused}: PlayerPageProps) {
         </div>
 
         <div className='player__controls-row'>
-          <button type='button' className='player__play'>
-            {isPaused
-              ? <>
-                <PlayIcon />
-                <span>Play</span>
-              </>
-              : <>
+          {isPaused
+            ? (
+              <button type='button' className='player__play'>
                 <PauseIcon />
                 <span>Pause</span>
-              </>
-            }
-          </button>
+              </button>
+            )
+            : (
+              <button type='button' className='player__play'>
+                <PlayIcon />
+                <span>Play</span>
+              </button>
+            )}
+
           <div className='player__name'>Transpotting</div>
 
           <button type='button' className='player__full-screen'>
