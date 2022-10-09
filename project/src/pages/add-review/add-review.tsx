@@ -1,15 +1,16 @@
 import Header from '../../components/header/header';
 import Rating from '../../components/rating/rating';
+import { Link } from 'react-router-dom';
 
 function Navigation() {
   return (
     <nav className='breadcrumbs'>
       <ul className='breadcrumbs__list'>
         <li className='breadcrumbs__item'>
-          <a href='film-page' className='breadcrumbs__link'>The Grand Budapest Hotel</a>
+          <Link to='film-page' className='breadcrumbs__link'>The Grand Budapest Hotel</Link>
         </li>
         <li className='breadcrumbs__item'>
-          <a className='breadcrumbs__link'>Add review</a>
+          <Link to='#' className='breadcrumbs__link'>Add review</Link>
         </li>
       </ul>
     </nav>
