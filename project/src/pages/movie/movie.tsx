@@ -15,7 +15,7 @@ export default function MoviePage() {
 
           <h1 className='visually-hidden'>WTW</h1>
 
-          <Header userAvatarImageSource='img/avatar.jpg' logoHref='main.html' />
+          <Header userAvatarImageSource='img/avatar.jpg' logoHref='main' />
 
           <div className='film-card__bg'>
             <img src='img/bg-the-grand-budapest-hotel.jpg' alt='The Grand Budapest Hotel'/>
@@ -36,7 +36,7 @@ export default function MoviePage() {
                 <MovieButton icon={<AddIcon/>} moviesListCount={9}>
                   My list
                 </MovieButton>
-                <a href='add-review.html' className='btn film-card__button'>
+                <a href='add-review' className='btn film-card__button'>
                   Add review
                 </a>
               </div>
@@ -84,7 +84,7 @@ export default function MoviePage() {
         </section>
 
         <footer className='page-footer'>
-          <Logo href='main.html' light />
+          <Logo href='main' light />
           <Copyright />
         </footer>
       </div>

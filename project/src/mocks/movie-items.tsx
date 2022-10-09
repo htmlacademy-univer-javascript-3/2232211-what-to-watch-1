@@ -59,7 +59,7 @@ const getMovieItemProps = (movieName: string): MovieItemProps => {
       height: '175'
     },
     name: movieName,
-    href: 'film-page.html'
+    href: 'film-page'
   };
 };
 

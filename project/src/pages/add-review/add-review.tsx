@@ -6,7 +6,7 @@ function Navigation() {
     <nav className='breadcrumbs'>
       <ul className='breadcrumbs__list'>
         <li className='breadcrumbs__item'>
-          <a href='film-page.html' className='breadcrumbs__link'>The Grand Budapest Hotel</a>
+          <a href='film-page' className='breadcrumbs__link'>The Grand Budapest Hotel</a>
         </li>
         <li className='breadcrumbs__item'>
           <a className='breadcrumbs__link'>Add review</a>
@@ -26,7 +26,7 @@ export default function AddReviewPage() {
 
         <h1 className='visually-hidden'>WTW</h1>
 
-        <Header logoHref='main.html' userAvatarImageSource='img/avatar.jpg' navigation={<Navigation />} />
+        <Header logoHref='main' userAvatarImageSource='img/avatar.jpg' navigation={<Navigation />} />
 
         <div className='film-card__poster film-card__poster--small'>
           <img src='img/the-grand-budapest-hotel-poster.jpg' alt='The Grand Budapest Hotel poster' width='218' height='327'/>
