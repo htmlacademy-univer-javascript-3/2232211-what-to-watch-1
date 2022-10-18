@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 interface ImageProps {
   source: string;
   alt: string;
@@ -23,7 +25,7 @@ export function MovieItem({imageProps, name, href}: MovieItemProps) {
         />
       </div>
       <h3 className="small-film-card__title">
-        <a className="small-film-card__link" href={href}>{name}</a>
+        <Link className="small-film-card__link" to={href}>{name}</Link>
       </h3>
     </article>
   );

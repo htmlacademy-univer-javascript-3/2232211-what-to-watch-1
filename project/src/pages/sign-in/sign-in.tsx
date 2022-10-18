@@ -10,7 +10,7 @@ export default function SignInPage({showInvalidEmailError, showCantRecognizeMess
   return (
     <div className='user-page'>
       <header className='page-header user-page__head'>
-        <Logo href='main.html' />
+        <Logo href='main' />
 
         <h1 className='page-title user-page__title'>Sign in</h1>
       </header>
@@ -44,7 +44,7 @@ export default function SignInPage({showInvalidEmailError, showCantRecognizeMess
         </form>
       </div>
 
-      <Footer logoHref='main.html' />
+      <Footer logoHref='main' />
     </div>
   );
 }

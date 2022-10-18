@@ -6,6 +6,7 @@ import AddIcon from '../../components/icons/add-icon';
 import Copyright from '../../components/copyright/copyright';
 import { moviePageMovieItems } from '../../mocks/movie-items';
 import { firstColumnReviews, secondColumnReviews } from '../../mocks/reviews';
+import { Link } from 'react-router-dom';
 
 export default function MoviePage() {
   return (
@@ -15,7 +16,7 @@ export default function MoviePage() {
 
           <h1 className='visually-hidden'>WTW</h1>
 
-          <Header userAvatarImageSource='img/avatar.jpg' logoHref='main.html' />
+          <Header userAvatarImageSource='img/avatar.jpg' logoHref='main' />
 
           <div className='film-card__bg'>
             <img src='img/bg-the-grand-budapest-hotel.jpg' alt='The Grand Budapest Hotel'/>
@@ -36,9 +37,9 @@ export default function MoviePage() {
                 <MovieButton icon={<AddIcon/>} moviesListCount={9}>
                   My list
                 </MovieButton>
-                <a href='add-review.html' className='btn film-card__button'>
+                <Link to='add-review' className='btn film-card__button'>
                   Add review
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -54,13 +55,13 @@ export default function MoviePage() {
               <nav className='film-nav film-card__nav'>
                 <ul className='film-nav__list'>
                   <li className='film-nav__item film-nav__item--active'>
-                    <a href='#' className='film-nav__link'>Overview</a>
+                    <Link to='#' className='film-nav__link'>Overview</Link>
                   </li>
                   <li className='film-nav__item'>
-                    <a href='#' className='film-nav__link'>Details</a>
+                    <Link to='#' className='film-nav__link'>Details</Link>
                   </li>
                   <li className='film-nav__item'>
-                    <a href='#' className='film-nav__link'>Reviews</a>
+                    <Link to='#' className='film-nav__link'>Reviews</Link>
                   </li>
                 </ul>
               </nav>
@@ -84,7 +85,7 @@ export default function MoviePage() {
         </section>
 
         <footer className='page-footer'>
-          <Logo href='main.html' light />
+          <Logo href='main' light />
           <Copyright />
         </footer>
       </div>

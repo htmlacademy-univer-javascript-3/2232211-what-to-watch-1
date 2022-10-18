@@ -1,10 +1,9 @@
-import { ReactNode } from 'react';
+import { ReactNode, PropsWithChildren } from 'react';
 
-interface MovieButtonProps {
+type MovieButtonProps = PropsWithChildren<{
   icon?: ReactNode;
-  children?: ReactNode;
   moviesListCount?: number;
-}
+}>
 
 export default function MovieButton({icon, children, moviesListCount}: MovieButtonProps) {
   return (

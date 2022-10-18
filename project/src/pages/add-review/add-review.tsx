@@ -1,15 +1,16 @@
 import Header from '../../components/header/header';
 import Rating from '../../components/rating/rating';
+import { Link } from 'react-router-dom';
 
 function Navigation() {
   return (
     <nav className='breadcrumbs'>
       <ul className='breadcrumbs__list'>
         <li className='breadcrumbs__item'>
-          <a href='film-page.html' className='breadcrumbs__link'>The Grand Budapest Hotel</a>
+          <Link to='film-page' className='breadcrumbs__link'>The Grand Budapest Hotel</Link>
         </li>
         <li className='breadcrumbs__item'>
-          <a className='breadcrumbs__link'>Add review</a>
+          <Link to='#' className='breadcrumbs__link'>Add review</Link>
         </li>
       </ul>
     </nav>
@@ -26,7 +27,7 @@ export default function AddReviewPage() {
 
         <h1 className='visually-hidden'>WTW</h1>
 
-        <Header logoHref='main.html' userAvatarImageSource='img/avatar.jpg' navigation={<Navigation />} />
+        <Header logoHref='main' userAvatarImageSource='img/avatar.jpg' navigation={<Navigation />} />
 
         <div className='film-card__poster film-card__poster--small'>
           <img src='img/the-grand-budapest-hotel-poster.jpg' alt='The Grand Budapest Hotel poster' width='218' height='327'/>
