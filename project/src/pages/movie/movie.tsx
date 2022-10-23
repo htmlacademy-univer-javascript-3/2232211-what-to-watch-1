@@ -7,8 +7,19 @@ import Copyright from '../../components/copyright/copyright';
 import { moviePageMovieItems } from '../../mocks/movie-items';
 import { firstColumnReviews, secondColumnReviews } from '../../mocks/reviews';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import Tabs from '../../components/tabs/tabs';
+import Tab from '../../components/tabs/tab';
+
+enum TabId {
+  Overview = 'Overview',
+  Details = 'Details',
+  Reviews = 'Reviews'
+}
 
 export default function MoviePage() {
+  const [tabId, setTabId] = useState(TabId.Overview);
+
   return (
     <>
       <section className='film-card film-card--full'>
@@ -53,23 +64,21 @@ export default function MoviePage() {
 
             <div className='film-card__desc'>
               <nav className='film-nav film-card__nav'>
-                <ul className='film-nav__list'>
-                  <li className='film-nav__item film-nav__item--active'>
-                    <Link to='#' className='film-nav__link'>Overview</Link>
-                  </li>
-                  <li className='film-nav__item'>
-                    <Link to='#' className='film-nav__link'>Details</Link>
-                  </li>
-                  <li className='film-nav__item'>
-                    <Link to='#' className='film-nav__link'>Reviews</Link>
-                  </li>
-                </ul>
+                <Tabs
+                  value={tabId}
+                  onValueChange={(id) => setTabId(id as TabId)}
+                  className='film-nav__list'
+                  activeTabClassName='film-nav__item--active'
+                >
+                  {getTab(TabId.Overview)}
+                  {getTab(TabId.Details)}
+                  {getTab(TabId.Reviews)}
+                </Tabs>
               </nav>
 
-              {/* Задел под state manager (в данном случае Redux) */}
-              {/*<OverviewInfo />*/}
-              {/*<DetailsInfo />*/}
-              <ReviewsInfo />
+              {tabId === TabId.Overview && <OverviewInfo />}
+              {tabId === TabId.Details && <DetailsInfo />}
+              {tabId === TabId.Reviews && <ReviewsInfo />}
             </div>
           </div>
         </div>
@@ -93,100 +102,108 @@ export default function MoviePage() {
   );
 }
 
-// function OverviewInfo() {
-//   return (
-//     <>
-//       <div className='film-rating'>
-//         <div className='film-rating__score'>8,9</div>
-//         <p className='film-rating__meta'>
-//           <span className='film-rating__level'>Very good</span>
-//           <span className='film-rating__count'>240 ratings</span>
-//         </p>
-//       </div>
-//
-//       <div className='film-card__text'>
-//         <p>
-//           In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge
-//           Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.
-//         </p>
-//         <p>
-//           Gustave prides himself on providing first-class service to the hotel&apos;s guests, including satisfying the
-//           sexual needs of the many elderly women who stay there. When one of Gustave&apos;s lovers dies mysteriously,
-//           Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.
-//         </p>
-//         <p className='film-card__director'>
-//           <strong>Director: Wes Anderson</strong>
-//         </p>
-//         <p className='film-card__starring'>
-//           <strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong>
-//         </p>
-//       </div>
-//     </>
-//   );
-// }
+function getTab(tabId: TabId) {
+  return (
+    <Tab id={tabId} className='film-nav__item'>
+      <Link to='#' className='film-nav__link'>{tabId}</Link>
+    </Tab>
+  );
+}
 
-// function DetailsInfo() {
-//   return (
-//     <div className='film-card__text film-card__row'>
-//       <div className='film-card__text-col'>
-//         <p className='film-card__details-item'>
-//           <strong className='film-card__details-name'>
-//             Director
-//           </strong>
-//           <span className='film-card__details-value'>
-//             Wes&nbsp;Anderson
-//           </span>
-//         </p>
-//         <p className='film-card__details-item'>
-//           <strong className='film-card__details-name'>
-//             Starring
-//           </strong>
-//           <span className='film-card__details-value'>
-//             Bill&nbsp;Murray,
-//             Edward&nbsp;Norton,
-//             Jude&nbsp;Law,
-//             Willem&nbsp;Dafoe,
-//             Saoirse&nbsp;Ronan,
-//             Tony&nbsp;Revoloru,
-//             Tilda&nbsp;Swinton,
-//             Tom&nbsp;Wilkinson,
-//             Owen&nbsp;Wilkinson,
-//             Adrien&nbsp;Brody,
-//             Ralph&nbsp;Fiennes,
-//             Jeff&nbsp;Goldblum
-//           </span>
-//         </p>
-//       </div>
-//
-//       <div className='film-card__text-col'>
-//         <p className='film-card__details-item'>
-//           <strong className='film-card__details-name'>
-//             Run&nbsp;Time
-//           </strong>
-//           <span className='film-card__details-value'>
-//             1h&nbsp;39m
-//           </span>
-//         </p>
-//         <p className='film-card__details-item'>
-//           <strong className='film-card__details-name'>
-//             Genre
-//           </strong>
-//           <span className='film-card__details-value'>
-//             Comedy
-//           </span>
-//         </p>
-//         <p className='film-card__details-item'>
-//           <strong className='film-card__details-name'>
-//             Released
-//           </strong>
-//           <span className='film-card__details-value'>
-//             2014
-//           </span>
-//         </p>
-//       </div>
-//     </div>
-//   );
-// }
+function OverviewInfo() {
+  return (
+    <>
+      <div className='film-rating'>
+        <div className='film-rating__score'>8,9</div>
+        <p className='film-rating__meta'>
+          <span className='film-rating__level'>Very good</span>
+          <span className='film-rating__count'>240 ratings</span>
+        </p>
+      </div>
+
+      <div className='film-card__text'>
+        <p>
+          In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge
+          Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.
+        </p>
+        <p>
+          Gustave prides himself on providing first-class service to the hotel&apos;s guests, including satisfying the
+          sexual needs of the many elderly women who stay there. When one of Gustave&apos;s lovers dies mysteriously,
+          Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.
+        </p>
+        <p className='film-card__director'>
+          <strong>Director: Wes Anderson</strong>
+        </p>
+        <p className='film-card__starring'>
+          <strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong>
+        </p>
+      </div>
+    </>
+  );
+}
+
+function DetailsInfo() {
+  return (
+    <div className='film-card__text film-card__row'>
+      <div className='film-card__text-col'>
+        <p className='film-card__details-item'>
+          <strong className='film-card__details-name'>
+            Director
+          </strong>
+          <span className='film-card__details-value'>
+            Wes&nbsp;Anderson
+          </span>
+        </p>
+        <p className='film-card__details-item'>
+          <strong className='film-card__details-name'>
+            Starring
+          </strong>
+          <span className='film-card__details-value'>
+            Bill&nbsp;Murray,
+            Edward&nbsp;Norton,
+            Jude&nbsp;Law,
+            Willem&nbsp;Dafoe,
+            Saoirse&nbsp;Ronan,
+            Tony&nbsp;Revoloru,
+            Tilda&nbsp;Swinton,
+            Tom&nbsp;Wilkinson,
+            Owen&nbsp;Wilkinson,
+            Adrien&nbsp;Brody,
+            Ralph&nbsp;Fiennes,
+            Jeff&nbsp;Goldblum
+          </span>
+        </p>
+      </div>
+
+      <div className='film-card__text-col'>
+        <p className='film-card__details-item'>
+          <strong className='film-card__details-name'>
+            Run&nbsp;Time
+          </strong>
+          <span className='film-card__details-value'>
+            1h&nbsp;39m
+          </span>
+        </p>
+        <p className='film-card__details-item'>
+          <strong className='film-card__details-name'>
+            Genre
+          </strong>
+          <span className='film-card__details-value'>
+            Comedy
+          </span>
+        </p>
+        <p className='film-card__details-item'>
+          <strong className='film-card__details-name'>
+            Released
+          </strong>
+          <span className='film-card__details-value'>
+            2014
+          </span>
+        </p>
+      </div>
+    </div>
+  );
+}
 
 function ReviewsInfo() {
   return (
