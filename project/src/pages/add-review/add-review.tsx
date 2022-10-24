@@ -39,7 +39,6 @@ export default function AddReviewPage() {
           <Rating
             from={1}
             to={10}
-            checked={8}
           />
 
           <div className='add-review__text'>
