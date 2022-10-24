@@ -39,10 +39,11 @@ const getRatingItems = (
 };
 
 export default function Rating({from, to}: RatingProps) {
-  const [checked, setChecked] = useState(0);
   if (to < from) {
     throw new Error(`Invalid borders! ${from} should be less than ${to}.`);
   }
+
+  const [checked, setChecked] = useState(from - 1);
   return (
     <div className='rating'>
       <div className='rating__stars'>
