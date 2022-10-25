@@ -8,7 +8,7 @@ export default function MyListPage() {
   return (
     <div className='user-page'>
       <header className='page-header user-page__head'>
-        <Logo href='main' />
+        <Logo href={PageLink.main} />
 
         <h1 className='page-title user-page__title'>My list <span className='user-page__film-count'>9</span></h1>
         <ul className='user-block'>
@@ -29,7 +29,7 @@ export default function MyListPage() {
         </div>
       </section>
 
-      <Footer logoHref='main' />
+      <Footer logoHref={PageLink.main} />
     </div>
   );
 }

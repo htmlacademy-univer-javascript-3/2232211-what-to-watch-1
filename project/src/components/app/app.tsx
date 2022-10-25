@@ -6,6 +6,7 @@ import MyListPage from '../../pages/my-list/my-list';
 import MoviePage from '../../pages/movie/movie';
 import PlayerPage from '../../pages/player/player';
 import NotFoundPage from '../../pages/not-found/not-found';
+import { PageLink } from '../../utils/links';
 import PrivateRoute from '../private-route/private-route';
 
 function App(): JSX.Element {
@@ -13,7 +14,7 @@ function App(): JSX.Element {
     <BrowserRouter>
       <Routes>
         <Route
-          path='/'
+          path={PageLink.main}
           element={
             <Main
               movieName='The Grand Budapest Hotel'
@@ -26,11 +27,11 @@ function App(): JSX.Element {
           }
         />
         <Route
-          path='/login'
+          path={PageLink.signIn}
           element={<SignInPage />}
         />
         <Route
-          path='/mylist'
+          path={PageLink.myList}
           element={
             <PrivateRoute>
               <MyListPage />
@@ -38,15 +39,15 @@ function App(): JSX.Element {
           }
         />
         <Route
-          path='/films/:id'
+          path={PageLink.film}
           element={<MoviePage />}
         />
         <Route
-          path='/films/:id/review'
+          path={PageLink.addReview}
           element={<AddReviewPage />}
         />
         <Route
-          path='/player/:id'
+          path={PageLink.player}
           element={<PlayerPage />}
         />
         <Route

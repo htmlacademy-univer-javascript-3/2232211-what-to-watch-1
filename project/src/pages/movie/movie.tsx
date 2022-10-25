@@ -27,7 +27,7 @@ export default function MoviePage() {
 
           <h1 className='visually-hidden'>WTW</h1>
 
-          <Header userAvatarImageSource='img/avatar.jpg' logoHref='main' />
+          <Header userAvatarImageSource='img/avatar.jpg' logoHref={PageLink.main} />
 
           <div className='film-card__bg'>
             <img src='img/bg-the-grand-budapest-hotel.jpg' alt='The Grand Budapest Hotel'/>
@@ -94,7 +94,7 @@ export default function MoviePage() {
         </section>
 
         <footer className='page-footer'>
-          <Logo href='main' light />
+          <Logo href={PageLink.main} light />
           <Copyright />
         </footer>
       </div>
