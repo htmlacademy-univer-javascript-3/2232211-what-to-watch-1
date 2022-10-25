@@ -1,8 +1,10 @@
 import Footer from '../../components/footer/footer';
-import { myListPageMovieItems } from '../../mocks/movie-items';
 import Logo from '../../components/logo/logo';
 import UserAvatar from '../../components/user/user-avatar';
 import SignOut from '../../components/sign-out/sign-out';
+import { movies } from '../../mocks/movies';
+import { getMovieLink, PageLink } from '../../utils/links';
+import { MovieItem } from '../../components/movie-item/movie-item';
 
 export default function MyListPage() {
   return (
@@ -25,7 +27,21 @@ export default function MyListPage() {
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
         <div className='catalog__films-list'>
-          {myListPageMovieItems}
+          {movies
+            .filter((movie) => movie.isFavorite)
+            .map((movie) => (
+              <MovieItem
+                key={movie.id}
+                imageProps={{
+                  source: movie.backgroundImage,
+                  alt: movie.name,
+                  width: '280',
+                  height: '175'
+                }}
+                name={movie.name}
+                href={getMovieLink(movie.id)}
+              />
+            ))}
         </div>
       </section>
 
