@@ -6,7 +6,7 @@ export default function HeadGuestPage() {
   return (
     <section className='film-card'>
       <div className='film-card__bg'>
-        <img src='img/bg-header.jpg'/>
+        <img src='img/bg-header.jpg' alt='Header background'/>
       </div>
 
       <h1 className='visually-hidden'>WTW</h1>
