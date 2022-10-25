@@ -1,15 +1,23 @@
 import PlayIcon from '../../components/icons/play-icon';
 import FullScreenIcon from '../../components/icons/full-screen';
 import PauseIcon from '../../components/icons/pause-icon';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { movies } from '../../mocks/movies';
+import NotFoundPage from '../not-found/not-found';
 
-interface PlayerPageProps {
-  isPaused?: boolean;
-}
+export default function PlayerPage() {
+  const movieId = useParams().id;
+  const movie = movies.find((m) => m.id.toString() === movieId);
+  const [isPaused, setIsPaused] = useState(false);
 
-export default function PlayerPage({isPaused}: PlayerPageProps) {
+  if (!movie) {
+    return <NotFoundPage />;
+  }
+
   return (
     <div className='player'>
-      <video src='#' className='player__video' poster='img/player-poster.jpg'></video>
+      <video src={movie.videoLink} className='player__video' poster={movie.previewImage}></video>
 
       <button type='button' className='player__exit'>Exit</button>
 
@@ -25,15 +33,15 @@ export default function PlayerPage({isPaused}: PlayerPageProps) {
         <div className='player__controls-row'>
           {isPaused
             ? (
-              <button type='button' className='player__play'>
+              <button type='button' className='player__play' onClick={() => setIsPaused(false)}>
                 <PauseIcon />
-                <span>Pause</span>
+                <span>Play</span>
               </button>
             )
             : (
-              <button type='button' className='player__play'>
+              <button type='button' className='player__play' onClick={() => setIsPaused(true)}>
                 <PlayIcon />
-                <span>Play</span>
+                <span>Pause</span>
               </button>
             )}
 
