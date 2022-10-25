@@ -1,8 +1,10 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 
 interface RatingProps {
   from: number;
   to: number;
+  checked: number;
+  setChecked: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const getRatingItems = (
@@ -38,12 +40,11 @@ const getRatingItems = (
   return values;
 };
 
-export default function Rating({from, to}: RatingProps) {
+export default function Rating({from, to, checked, setChecked}: RatingProps) {
   if (to < from) {
     throw new Error(`Invalid borders! ${from} should be less than ${to}.`);
   }
 
-  const [checked, setChecked] = useState(from - 1);
   return (
     <div className='rating'>
       <div className='rating__stars'>
