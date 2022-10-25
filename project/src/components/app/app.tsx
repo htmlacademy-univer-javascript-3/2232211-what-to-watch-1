@@ -8,6 +8,7 @@ import PlayerPage from '../../pages/player/player';
 import NotFoundPage from '../../pages/not-found/not-found';
 import { PageLink } from '../../utils/links';
 import PrivateRoute from '../private-route/private-route';
+import { movies, promoMovie } from '../../mocks/movies';
 
 function App(): JSX.Element {
   return (
@@ -17,12 +18,8 @@ function App(): JSX.Element {
           path={PageLink.main}
           element={
             <Main
-              movieName='The Grand Budapest Hotel'
-              movieBackgroundSource='img/bg-the-grand-budapest-hotel.jpg'
-              moviePosterSource='img/the-grand-budapest-hotel-poster.jpg'
-              movieGenre='Drama'
-              movieReleaseYear={2014}
-              moviesListCount={9}
+              promoMovie={promoMovie}
+              movies={movies}
             />
           }
         />
