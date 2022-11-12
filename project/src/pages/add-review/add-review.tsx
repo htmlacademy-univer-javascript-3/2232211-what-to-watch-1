@@ -1,55 +1,37 @@
 import Header from '../../components/header/header';
-import Rating from '../../components/rating/rating';
-import { Link } from 'react-router-dom';
-
-function Navigation() {
-  return (
-    <nav className='breadcrumbs'>
-      <ul className='breadcrumbs__list'>
-        <li className='breadcrumbs__item'>
-          <Link to='film-page' className='breadcrumbs__link'>The Grand Budapest Hotel</Link>
-        </li>
-        <li className='breadcrumbs__item'>
-          <Link to='#' className='breadcrumbs__link'>Add review</Link>
-        </li>
-      </ul>
-    </nav>
-  );
-}
+import { useParams } from 'react-router-dom';
+import React from 'react';
+import { PageLink } from '../../utils/links';
+import { movies } from '../../mocks/movies';
+import Navigation from './navigation';
+import AddReviewForm from './add-review-form';
+import { redirect } from '../../utils/common-functions';
 
 export default function AddReviewPage() {
+  const movieId = useParams().id;
+  const movie = movies.find((m) => m.id.toString() === movieId);
+
+  if (!movie) {
+    return redirect(PageLink.NotFound);
+  }
+
   return (
     <section className='film-card film-card--full'>
       <div className='film-card__header'>
         <div className='film-card__bg'>
-          <img src='img/bg-the-grand-budapest-hotel.jpg' alt='The Grand Budapest Hotel'/>
+          <img src={movie.backgroundImage} alt={movie.name}/>
         </div>
 
         <h1 className='visually-hidden'>WTW</h1>
 
-        <Header logoHref='main' userAvatarImageSource='img/avatar.jpg' navigation={<Navigation />} />
+        <Header logoHref={PageLink.Main} userAvatarImageSource='img/avatar.jpg' navigation={<Navigation movie={movie} />} />
 
         <div className='film-card__poster film-card__poster--small'>
-          <img src='img/the-grand-budapest-hotel-poster.jpg' alt='The Grand Budapest Hotel poster' width='218' height='327'/>
+          <img src={movie.posterImage} alt={`${movie.name} poster`} width='218' height='327'/>
         </div>
       </div>
 
-      <div className='add-review'>
-        <form action='#' className='add-review__form'>
-          <Rating
-            from={1}
-            to={10}
-            checked={8}
-          />
-
-          <div className='add-review__text'>
-            <textarea className='add-review__textarea' name='review-text' id='review-text' placeholder='Review text'></textarea>
-            <div className='add-review__submit'>
-              <button className='add-review__btn' type='submit'>Post</button>
-            </div>
-          </div>
-        </form>
-      </div>
+      <AddReviewForm />
     </section>
   );
 }

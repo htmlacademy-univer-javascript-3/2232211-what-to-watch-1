@@ -6,31 +6,29 @@ import MyListPage from '../../pages/my-list/my-list';
 import MoviePage from '../../pages/movie/movie';
 import PlayerPage from '../../pages/player/player';
 import NotFoundPage from '../../pages/not-found/not-found';
+import { PageLink } from '../../utils/links';
 import PrivateRoute from '../private-route/private-route';
+import { movies, promoMovie } from '../../mocks/movies';
 
 function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route
-          path='/'
+          path={PageLink.Main}
           element={
             <Main
-              movieName='The Grand Budapest Hotel'
-              movieBackgroundSource='img/bg-the-grand-budapest-hotel.jpg'
-              moviePosterSource='img/the-grand-budapest-hotel-poster.jpg'
-              movieGenre='Drama'
-              movieReleaseYear={2014}
-              moviesListCount={9}
+              promoMovie={promoMovie}
+              movies={movies}
             />
           }
         />
         <Route
-          path='/login'
+          path={PageLink.SignIn}
           element={<SignInPage />}
         />
         <Route
-          path='/mylist'
+          path={PageLink.MyList}
           element={
             <PrivateRoute>
               <MyListPage />
@@ -38,15 +36,15 @@ function App(): JSX.Element {
           }
         />
         <Route
-          path='/films/:id'
+          path={PageLink.Film}
           element={<MoviePage />}
         />
         <Route
-          path='/films/:id/review'
+          path={PageLink.AddReview}
           element={<AddReviewPage />}
         />
         <Route
-          path='/player/:id'
+          path={PageLink.Player}
           element={<PlayerPage />}
         />
         <Route

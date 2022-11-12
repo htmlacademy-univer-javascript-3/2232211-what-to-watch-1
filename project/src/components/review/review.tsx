@@ -1,24 +1,33 @@
 import { ReactNode } from 'react';
 
-interface ReviewProps {
-  message: ReactNode;
-  author: string;
-  dateTime: string;
+export interface ReviewProps {
+  comment: ReactNode;
   date: string;
-  rating: string;
+  id: number;
+  rating: number;
+  user: {
+    id: number
+    name: string
+  }
 }
 
-export default function Review({message, author, dateTime, date, rating}: ReviewProps) {
+export function Review({comment, date, id, rating, user}: ReviewProps) {
+  const dateInstance = new Date(date);
   return (
-    <div className='review'>
+    <div className='review' key={id}>
       <blockquote className='review__quote'>
         <p className='review__text'>
-          {message}
+          {comment}
         </p>
 
         <footer className='review__details'>
-          <cite className='review__author'>{author}</cite>
-          <time className='review__date' dateTime={dateTime}>{date}</time>
+          <cite className='review__author'>{user.name}</cite>
+          <time
+            className='review__date'
+            dateTime={dateInstance.toISOString()}
+          >
+            {dateInstance.toISOString().slice(0, 10)}
+          </time>
         </footer>
       </blockquote>
 

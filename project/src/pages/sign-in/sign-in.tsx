@@ -1,5 +1,6 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
+import { PageLink } from '../../utils/links';
 
 interface SignInPageProps {
   showInvalidEmailError?: boolean;
@@ -10,7 +11,7 @@ export default function SignInPage({showInvalidEmailError, showCantRecognizeMess
   return (
     <div className='user-page'>
       <header className='page-header user-page__head'>
-        <Logo href='main' />
+        <Logo href={PageLink.Main} />
 
         <h1 className='page-title user-page__title'>Sign in</h1>
       </header>
@@ -44,7 +45,7 @@ export default function SignInPage({showInvalidEmailError, showCantRecognizeMess
         </form>
       </div>
 
-      <Footer logoHref='main' />
+      <Footer logoHref={PageLink.Main} />
     </div>
   );
 }

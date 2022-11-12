@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import React from 'react';
 
 interface ImageProps {
   source: string;
@@ -11,11 +12,12 @@ export interface MovieItemProps {
   imageProps: ImageProps;
   name: string;
   href: string;
+  onMouseOver?: React.MouseEventHandler<HTMLElement>;
 }
 
-export function MovieItem({imageProps, name, href}: MovieItemProps) {
+export function MovieItem({imageProps, name, href, onMouseOver}: MovieItemProps) {
   return (
-    <article className="small-film-card catalog__films-card">
+    <article className="small-film-card catalog__films-card" onMouseOver={onMouseOver}>
       <div className="small-film-card__image">
         <img
           src={imageProps.source}

@@ -4,11 +4,51 @@ import MovieButton from '../../components/buttons/movie-button';
 import PlayIcon from '../../components/icons/play-icon';
 import AddIcon from '../../components/icons/add-icon';
 import Copyright from '../../components/copyright/copyright';
-import { moviePageMovieItems } from '../../mocks/movie-items';
 import { firstColumnReviews, secondColumnReviews } from '../../mocks/reviews';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import type { Movie } from '../../types/movie';
+import { useState } from 'react';
+import Tabs from '../../components/tabs/tabs';
+import Tab from '../../components/tabs/tab';
+import { toHourAndMinute } from '../../utils/formatted-time';
+import { getAddReviewLink, getMovieLink, PageLink } from '../../utils/links';
+import { Review } from '../../components/review/review';
+import { movies } from '../../mocks/movies';
+import { MovieItem } from '../../components/movie-item/movie-item';
+import { redirect } from '../../utils/common-functions';
+
+enum TabId {
+  Overview = 'Overview',
+  Details = 'Details',
+  Reviews = 'Reviews'
+}
 
 export default function MoviePage() {
+  const [tabId, setTabId] = useState(TabId.Overview);
+  const movieId = useParams().id;
+  const movie = movies.find((m) => m.id.toString() === movieId);
+
+  if (!movie) {
+    return redirect(PageLink.NotFound);
+  }
+
+  const moviesSameGenre = movies
+    .filter((m) => m.genre === movie.genre && m.id !== movie.id)
+    .slice(0, 4)
+    .map((m) => (
+      <MovieItem
+        key={m.id}
+        imageProps={{
+          source: m.backgroundImage,
+          alt: m.name,
+          width: '280',
+          height: '175'
+        }}
+        name={m.name}
+        href={getMovieLink(m.id)}
+      />
+    ));
+
   return (
     <>
       <section className='film-card film-card--full'>
@@ -16,18 +56,18 @@ export default function MoviePage() {
 
           <h1 className='visually-hidden'>WTW</h1>
 
-          <Header userAvatarImageSource='img/avatar.jpg' logoHref='main' />
+          <Header userAvatarImageSource='img/avatar.jpg' logoHref={PageLink.Main} />
 
           <div className='film-card__bg'>
-            <img src='img/bg-the-grand-budapest-hotel.jpg' alt='The Grand Budapest Hotel'/>
+            <img src={movie.backgroundImage} alt={movie.name}/>
           </div>
 
           <div className='film-card__wrap'>
             <div className='film-card__desc'>
-              <h2 className='film-card__title'>The Grand Budapest Hotel</h2>
+              <h2 className='film-card__title'>{movie.name}</h2>
               <p className='film-card__meta'>
-                <span className='film-card__genre'>Drama</span>
-                <span className='film-card__year'>2014</span>
+                <span className='film-card__genre'>{movie.genre}</span>
+                <span className='film-card__year'>{movie.released}</span>
               </p>
 
               <div className='film-card__buttons'>
@@ -37,7 +77,7 @@ export default function MoviePage() {
                 <MovieButton icon={<AddIcon/>} moviesListCount={9}>
                   My list
                 </MovieButton>
-                <Link to='add-review' className='btn film-card__button'>
+                <Link to={getAddReviewLink(movie.id)} className='btn film-card__button'>
                   Add review
                 </Link>
               </div>
@@ -48,44 +88,44 @@ export default function MoviePage() {
         <div className='film-card__wrap film-card__translate-top'>
           <div className='film-card__info'>
             <div className='film-card__poster film-card__poster--big'>
-              <img src='img/the-grand-budapest-hotel-poster.jpg' alt='The Grand Budapest Hotel poster' width='218' height='327'/>
+              <img src={movie.posterImage} alt={`${movie.name} poster`} width='218' height='327'/>
             </div>
 
             <div className='film-card__desc'>
               <nav className='film-nav film-card__nav'>
-                <ul className='film-nav__list'>
-                  <li className='film-nav__item film-nav__item--active'>
-                    <Link to='#' className='film-nav__link'>Overview</Link>
-                  </li>
-                  <li className='film-nav__item'>
-                    <Link to='#' className='film-nav__link'>Details</Link>
-                  </li>
-                  <li className='film-nav__item'>
-                    <Link to='#' className='film-nav__link'>Reviews</Link>
-                  </li>
-                </ul>
+                <Tabs
+                  value={tabId}
+                  onValueChange={(id) => setTabId(id as TabId)}
+                  className='film-nav__list'
+                  activeTabClassName='film-nav__item--active'
+                >
+                  {getTab(TabId.Overview)}
+                  {getTab(TabId.Details)}
+                  {getTab(TabId.Reviews)}
+                </Tabs>
               </nav>
 
-              {/* Задел под state manager (в данном случае Redux) */}
-              {/*<OverviewInfo />*/}
-              {/*<DetailsInfo />*/}
-              <ReviewsInfo />
+              {tabId === TabId.Overview && OverviewInfo(movie)}
+              {tabId === TabId.Details && DetailsInfo(movie)}
+              {tabId === TabId.Reviews && <ReviewsInfo />}
             </div>
           </div>
         </div>
       </section>
 
       <div className='page-content'>
-        <section className='catalog catalog--like-this'>
-          <h2 className='catalog__title'>More like this</h2>
+        {moviesSameGenre.length > 0 && (
+          <section className='catalog catalog--like-this'>
+            <h2 className='catalog__title'>More like this</h2>
 
-          <div className='catalog__films-list'>
-            {moviePageMovieItems}
-          </div>
-        </section>
+            <div className='catalog__films-list'>
+              {moviesSameGenre}
+            </div>
+          </section>
+        )}
 
         <footer className='page-footer'>
-          <Logo href='main' light />
+          <Logo href={PageLink.Main} light />
           <Copyright />
         </footer>
       </div>
@@ -93,110 +133,125 @@ export default function MoviePage() {
   );
 }
 
-// function OverviewInfo() {
-//   return (
-//     <>
-//       <div className='film-rating'>
-//         <div className='film-rating__score'>8,9</div>
-//         <p className='film-rating__meta'>
-//           <span className='film-rating__level'>Very good</span>
-//           <span className='film-rating__count'>240 ratings</span>
-//         </p>
-//       </div>
-//
-//       <div className='film-card__text'>
-//         <p>
-//           In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge
-//           Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.
-//         </p>
-//         <p>
-//           Gustave prides himself on providing first-class service to the hotel&apos;s guests, including satisfying the
-//           sexual needs of the many elderly women who stay there. When one of Gustave&apos;s lovers dies mysteriously,
-//           Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.
-//         </p>
-//         <p className='film-card__director'>
-//           <strong>Director: Wes Anderson</strong>
-//         </p>
-//         <p className='film-card__starring'>
-//           <strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong>
-//         </p>
-//       </div>
-//     </>
-//   );
-// }
+function getTab(tabId: TabId) {
+  return (
+    <Tab id={tabId} className='film-nav__item'>
+      <Link to='#' className='film-nav__link'>{tabId}</Link>
+    </Tab>
+  );
+}
 
-// function DetailsInfo() {
-//   return (
-//     <div className='film-card__text film-card__row'>
-//       <div className='film-card__text-col'>
-//         <p className='film-card__details-item'>
-//           <strong className='film-card__details-name'>
-//             Director
-//           </strong>
-//           <span className='film-card__details-value'>
-//             Wes&nbsp;Anderson
-//           </span>
-//         </p>
-//         <p className='film-card__details-item'>
-//           <strong className='film-card__details-name'>
-//             Starring
-//           </strong>
-//           <span className='film-card__details-value'>
-//             Bill&nbsp;Murray,
-//             Edward&nbsp;Norton,
-//             Jude&nbsp;Law,
-//             Willem&nbsp;Dafoe,
-//             Saoirse&nbsp;Ronan,
-//             Tony&nbsp;Revoloru,
-//             Tilda&nbsp;Swinton,
-//             Tom&nbsp;Wilkinson,
-//             Owen&nbsp;Wilkinson,
-//             Adrien&nbsp;Brody,
-//             Ralph&nbsp;Fiennes,
-//             Jeff&nbsp;Goldblum
-//           </span>
-//         </p>
-//       </div>
-//
-//       <div className='film-card__text-col'>
-//         <p className='film-card__details-item'>
-//           <strong className='film-card__details-name'>
-//             Run&nbsp;Time
-//           </strong>
-//           <span className='film-card__details-value'>
-//             1h&nbsp;39m
-//           </span>
-//         </p>
-//         <p className='film-card__details-item'>
-//           <strong className='film-card__details-name'>
-//             Genre
-//           </strong>
-//           <span className='film-card__details-value'>
-//             Comedy
-//           </span>
-//         </p>
-//         <p className='film-card__details-item'>
-//           <strong className='film-card__details-name'>
-//             Released
-//           </strong>
-//           <span className='film-card__details-value'>
-//             2014
-//           </span>
-//         </p>
-//       </div>
-//     </div>
-//   );
-// }
+function OverviewInfo(movie: Movie) {
+  return (
+    <>
+      <div className='film-rating'>
+        <div className='film-rating__score'>{movie.rating}</div>
+        <p className='film-rating__meta'>
+          <span className='film-rating__level'>{getRatingLevel(movie.rating)}</span>
+          <span className='film-rating__count'>{movie.scoresCount} ratings</span>
+        </p>
+      </div>
+
+      <div className='film-card__text'>
+        {formatMovieDescription(movie.description)}
+        <p className='film-card__director'>
+          <strong>Director: {movie.director}</strong>
+        </p>
+        <p className='film-card__starring'>
+          <strong>Starring: {movie.starring.slice(0, 4).join(', ')} and other</strong>
+        </p>
+      </div>
+    </>
+  );
+}
+
+function DetailsInfo(movie: Movie) {
+  return (
+    <div className='film-card__text film-card__row'>
+      <div className='film-card__text-col'>
+        <p className='film-card__details-item'>
+          <strong className='film-card__details-name'>
+            Director
+          </strong>
+          <span className='film-card__details-value'>
+            {movie.director}
+          </span>
+        </p>
+        <p className='film-card__details-item'>
+          <strong className='film-card__details-name'>
+            Starring
+          </strong>
+          <span className='film-card__details-value'>
+            {movie.starring.map((actor, ind) => (
+              <span key={actor}>
+                {actor}{ind !== movie.starring.length - 1 && ','}<br/>
+              </span>
+            ))}
+          </span>
+        </p>
+      </div>
+
+      <div className='film-card__text-col'>
+        <p className='film-card__details-item'>
+          <strong className='film-card__details-name'>
+            Run&nbsp;Time
+          </strong>
+          <span className='film-card__details-value'>
+            {toHourAndMinute(movie.runTime)}
+          </span>
+        </p>
+        <p className='film-card__details-item'>
+          <strong className='film-card__details-name'>
+            Genre
+          </strong>
+          <span className='film-card__details-value'>
+            {movie.genre}
+          </span>
+        </p>
+        <p className='film-card__details-item'>
+          <strong className='film-card__details-name'>
+            Released
+          </strong>
+          <span className='film-card__details-value'>
+            {movie.released}
+          </span>
+        </p>
+      </div>
+    </div>
+  );
+}
 
 function ReviewsInfo() {
   return (
     <div className='film-card__reviews film-card__row'>
       <div className='film-card__reviews-col'>
-        {firstColumnReviews}
+        {firstColumnReviews.map((p) => <Review key={p.id} {...p} />)}
       </div>
       <div className='film-card__reviews-col'>
-        {secondColumnReviews}
+        {secondColumnReviews.map((p) => <Review key={p.id} {...p} />)}
       </div>
     </div>
   );
+}
+
+function getRatingLevel(rating: number): string {
+  if (rating < 3) {
+    return 'Bad';
+  }
+  if (rating < 5) {
+    return 'Normal';
+  }
+  if (rating < 8) {
+    return 'Good';
+  }
+  if (rating < 10) {
+    return 'Very good';
+  }
+  return 'Awesome';
+}
+
+function formatMovieDescription(description: string) {
+  return description
+    .split('\n')
+    .map((row) => <p key={row.slice(0, 10)}>{row}</p>);
 }
