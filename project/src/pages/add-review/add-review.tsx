@@ -1,6 +1,6 @@
 import Header from '../../components/header/header';
 import { useParams } from 'react-router-dom';
-import React  from 'react';
+import React from 'react';
 import { PageLink } from '../../utils/links';
 import { movies } from '../../mocks/movies';
 import Navigation from './navigation';
