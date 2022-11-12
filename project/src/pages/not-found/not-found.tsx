@@ -5,7 +5,7 @@ export default function NotFoundPage() {
   return (
     <>
       <h1>404 Not found.</h1>
-      <Link to={PageLink.main}>Main page</Link>
+      <Link to={PageLink.Main}>Main page</Link>
     </>
   );
 }

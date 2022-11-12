@@ -15,7 +15,7 @@ export default function HeadGuestPage() {
         <Logo />
 
         <div className='user-block'>
-          <Link to={PageLink.signIn} className='user-block__link'>Sign in</Link>
+          <Link to={PageLink.SignIn} className='user-block__link'>Sign in</Link>
         </div>
       </header>
     </section>

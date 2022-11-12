@@ -56,7 +56,7 @@ export default function MoviePage() {
 
           <h1 className='visually-hidden'>WTW</h1>
 
-          <Header userAvatarImageSource='img/avatar.jpg' logoHref={PageLink.main} />
+          <Header userAvatarImageSource='img/avatar.jpg' logoHref={PageLink.Main} />
 
           <div className='film-card__bg'>
             <img src={movie.backgroundImage} alt={movie.name}/>
@@ -125,7 +125,7 @@ export default function MoviePage() {
         )}
 
         <footer className='page-footer'>
-          <Logo href={PageLink.main} light />
+          <Logo href={PageLink.Main} light />
           <Copyright />
         </footer>
       </div>

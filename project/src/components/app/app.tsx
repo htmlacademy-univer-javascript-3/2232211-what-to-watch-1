@@ -15,7 +15,7 @@ function App(): JSX.Element {
     <BrowserRouter>
       <Routes>
         <Route
-          path={PageLink.main}
+          path={PageLink.Main}
           element={
             <Main
               promoMovie={promoMovie}
@@ -24,11 +24,11 @@ function App(): JSX.Element {
           }
         />
         <Route
-          path={PageLink.signIn}
+          path={PageLink.SignIn}
           element={<SignInPage />}
         />
         <Route
-          path={PageLink.myList}
+          path={PageLink.MyList}
           element={
             <PrivateRoute>
               <MyListPage />
@@ -36,15 +36,15 @@ function App(): JSX.Element {
           }
         />
         <Route
-          path={PageLink.film}
+          path={PageLink.Film}
           element={<MoviePage />}
         />
         <Route
-          path={PageLink.addReview}
+          path={PageLink.AddReview}
           element={<AddReviewPage />}
         />
         <Route
-          path={PageLink.player}
+          path={PageLink.Player}
           element={<PlayerPage />}
         />
         <Route

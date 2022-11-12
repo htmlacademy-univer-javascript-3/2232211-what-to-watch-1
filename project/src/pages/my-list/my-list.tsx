@@ -10,7 +10,7 @@ export default function MyListPage() {
   return (
     <div className='user-page'>
       <header className='page-header user-page__head'>
-        <Logo href={PageLink.main} />
+        <Logo href={PageLink.Main} />
 
         <h1 className='page-title user-page__title'>My list <span className='user-page__film-count'>9</span></h1>
         <ul className='user-block'>
@@ -45,7 +45,7 @@ export default function MyListPage() {
         </div>
       </section>
 
-      <Footer logoHref={PageLink.main} />
+      <Footer logoHref={PageLink.Main} />
     </div>
   );
 }

@@ -24,7 +24,7 @@ export default function AddReviewPage() {
 
         <h1 className='visually-hidden'>WTW</h1>
 
-        <Header logoHref={PageLink.main} userAvatarImageSource='img/avatar.jpg' navigation={<Navigation movie={movie} />} />
+        <Header logoHref={PageLink.Main} userAvatarImageSource='img/avatar.jpg' navigation={<Navigation movie={movie} />} />
 
         <div className='film-card__poster film-card__poster--small'>
           <img src={movie.posterImage} alt={`${movie.name} poster`} width='218' height='327'/>
