@@ -13,7 +13,7 @@ type TabsProps = PropsWithChildren<{
 
 export default function Tabs({children, value, onValueChange, className, activeTabClassName}: TabsProps) {
   const switchTab = (id: string) => {
-    if (id !== value && onValueChange) {
+    if (id !== value) {
       onValueChange(id);
     }
   };
