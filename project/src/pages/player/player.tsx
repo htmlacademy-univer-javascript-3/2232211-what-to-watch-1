@@ -4,8 +4,7 @@ import PauseIcon from '../../components/icons/pause-icon';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { movies } from '../../mocks/movies';
-import { redirect } from '../../utils/common-functions';
-import { PageLink } from '../../utils/links';
+import NotFoundPage from '../not-found/not-found';
 
 export default function PlayerPage() {
   const movieId = useParams().id;
@@ -13,7 +12,7 @@ export default function PlayerPage() {
   const [isPaused, setIsPaused] = useState(false);
 
   if (!movie) {
-    return redirect(PageLink.NotFound);
+    return <NotFoundPage />;
   }
 
   return (

@@ -14,8 +14,8 @@ import { toHourAndMinute } from '../../utils/formatted-time';
 import { getAddReviewLink, getMovieLink, PageLink } from '../../utils/links';
 import { Review } from '../../components/review/review';
 import { movies } from '../../mocks/movies';
+import NotFoundPage from '../not-found/not-found';
 import { MovieItem } from '../../components/movie-item/movie-item';
-import { redirect } from '../../utils/common-functions';
 
 enum TabId {
   Overview = 'Overview',
@@ -29,7 +29,7 @@ export default function MoviePage() {
   const movie = movies.find((m) => m.id.toString() === movieId);
 
   if (!movie) {
-    return redirect(PageLink.NotFound);
+    return <NotFoundPage />;
   }
 
   const moviesSameGenre = movies
