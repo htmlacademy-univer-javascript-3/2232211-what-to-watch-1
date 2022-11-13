@@ -38,12 +38,10 @@ export default function MoviePage() {
     .map((m) => (
       <MovieItem
         key={m.id}
-        imageProps={{
-          source: m.backgroundImage,
-          alt: m.name,
-          width: '280',
-          height: '175'
-        }}
+        videoLink={movie.videoLink}
+        posterImage={movie.posterImage}
+        width='280'
+        height='175'
         name={m.name}
         href={getMovieLink(m.id)}
       />

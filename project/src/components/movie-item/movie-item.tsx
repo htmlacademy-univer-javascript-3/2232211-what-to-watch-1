@@ -1,29 +1,41 @@
 import { Link } from 'react-router-dom';
-import React from 'react';
-
-interface ImageProps {
-  source: string;
-  alt: string;
-  width: string;
-  height: string;
-}
+import React, { useState } from 'react';
+import VideoPlayer from '../video-player/video-player';
 
 export interface MovieItemProps {
-  imageProps: ImageProps;
+  videoLink: string;
+  posterImage: string;
+  width: string;
+  height: string;
   name: string;
   href: string;
-  onMouseOver?: React.MouseEventHandler<HTMLElement>;
 }
 
-export function MovieItem({imageProps, name, href, onMouseOver}: MovieItemProps) {
+export function MovieItem({videoLink, posterImage, width, height, name, href}: MovieItemProps) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  let playVideoTimeout: NodeJS.Timeout | null = null;
+
+  const handleMouseEnter = () => {
+    playVideoTimeout = setTimeout(() => setIsPlaying(true), 1000);
+  };
+
+  const handleMouseLeave = () => {
+    if (playVideoTimeout) {
+      clearTimeout(playVideoTimeout);
+    }
+    setIsPlaying(false);
+  };
+
   return (
-    <article className="small-film-card catalog__films-card" onMouseOver={onMouseOver}>
+    <article className="small-film-card catalog__films-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className="small-film-card__image">
-        <img
-          src={imageProps.source}
-          alt={imageProps.alt}
-          width={imageProps.width}
-          height={imageProps.height}
+        <VideoPlayer
+          muted
+          videoLink={videoLink}
+          posterImage={posterImage}
+          width={width}
+          height={height}
+          isPlaying={isPlaying}
         />
       </div>
       <h3 className="small-film-card__title">

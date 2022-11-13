@@ -14,7 +14,6 @@ export default function MoviesList({movies}: MoviesListProps) {
   const allGenresTab = 'All genres';
   const tabs = [allGenresTab, ...new Set(movies.map((movie) => movie.genre))].slice(0, 10);
   const [selectedTab, setSelectedTab] = useState(allGenresTab);
-  const [activeMovie, setActiveMovie] = useState<Movie | null>(null); // eslint-disable-line @typescript-eslint/no-unused-vars
 
   return (
     <>
@@ -41,15 +40,12 @@ export default function MoviesList({movies}: MoviesListProps) {
           .map((movie) => (
             <MovieItem
               key={movie.id}
-              imageProps={{
-                source: movie.backgroundImage,
-                alt: movie.name,
-                width: '280',
-                height: '175'
-              }}
+              videoLink={movie.videoLink}
+              posterImage={movie.posterImage}
+              width='280'
+              height='175'
               name={movie.name}
               href={getMovieLink(movie.id)}
-              onMouseOver={(_) => setActiveMovie(movie)}
             />
           ))}
       </div>

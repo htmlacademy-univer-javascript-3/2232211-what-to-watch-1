@@ -32,12 +32,10 @@ export default function MyListPage() {
             .map((movie) => (
               <MovieItem
                 key={movie.id}
-                imageProps={{
-                  source: movie.backgroundImage,
-                  alt: movie.name,
-                  width: '280',
-                  height: '175'
-                }}
+                videoLink={movie.videoLink}
+                posterImage={movie.posterImage}
+                width='280'
+                height='175'
                 name={movie.name}
                 href={getMovieLink(movie.id)}
               />
