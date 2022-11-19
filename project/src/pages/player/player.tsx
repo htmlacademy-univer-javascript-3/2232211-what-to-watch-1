@@ -2,9 +2,9 @@ import PlayIcon from '../../components/icons/play-icon';
 import FullScreenIcon from '../../components/icons/full-screen';
 import PauseIcon from '../../components/icons/pause-icon';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { movies } from '../../mocks/movies';
-import NotFoundPage from '../not-found/not-found';
+import { PageLink } from '../../utils/links';
 
 export default function PlayerPage() {
   const movieId = useParams().id;
@@ -12,7 +12,7 @@ export default function PlayerPage() {
   const [isPaused, setIsPaused] = useState(false);
 
   if (!movie) {
-    return <NotFoundPage />;
+    return <Navigate to={PageLink.NotFound} />;
   }
 
   return (

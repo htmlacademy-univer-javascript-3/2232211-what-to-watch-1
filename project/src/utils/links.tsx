@@ -4,7 +4,8 @@ export enum PageLink {
   MyList = '/myList',
   Film = '/films/:id',
   AddReview = '/films/:id/review',
-  Player = '/player/:id'
+  Player = '/player/:id',
+  NotFound = '/notFound'
 }
 
 export function getMovieLink(movieId: number): string {

@@ -5,7 +5,7 @@ import PlayIcon from '../../components/icons/play-icon';
 import AddIcon from '../../components/icons/add-icon';
 import Copyright from '../../components/copyright/copyright';
 import { firstColumnReviews, secondColumnReviews } from '../../mocks/reviews';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import type { Movie } from '../../types/movie';
 import { useState } from 'react';
 import Tabs from '../../components/tabs/tabs';
@@ -14,7 +14,6 @@ import { toHourAndMinute } from '../../utils/formatted-time';
 import { getAddReviewLink, getMovieLink, PageLink } from '../../utils/links';
 import { Review } from '../../components/review/review';
 import { movies } from '../../mocks/movies';
-import NotFoundPage from '../not-found/not-found';
 import { MovieItem } from '../../components/movie-item/movie-item';
 
 enum TabId {
@@ -29,7 +28,7 @@ export default function MoviePage() {
   const movie = movies.find((m) => m.id.toString() === movieId);
 
   if (!movie) {
-    return <NotFoundPage />;
+    return <Navigate to={PageLink.NotFound} />;
   }
 
   const moviesSameGenre = movies
