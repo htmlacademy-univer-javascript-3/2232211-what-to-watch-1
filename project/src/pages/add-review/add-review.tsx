@@ -1,18 +1,17 @@
 import Header from '../../components/header/header';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import React from 'react';
 import { PageLink } from '../../utils/links';
 import { movies } from '../../mocks/movies';
 import Navigation from './navigation';
 import AddReviewForm from './add-review-form';
-import { redirect } from '../../utils/common-functions';
 
 export default function AddReviewPage() {
   const movieId = useParams().id;
   const movie = movies.find((m) => m.id.toString() === movieId);
 
   if (!movie) {
-    return redirect(PageLink.NotFound);
+    return <Navigate to={PageLink.NotFound} />;
   }
 
   return (
