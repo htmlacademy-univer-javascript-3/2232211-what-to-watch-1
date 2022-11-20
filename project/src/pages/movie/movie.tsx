@@ -4,17 +4,16 @@ import MovieButton from '../../components/buttons/movie-button';
 import PlayIcon from '../../components/icons/play-icon';
 import AddIcon from '../../components/icons/add-icon';
 import Copyright from '../../components/copyright/copyright';
-import { firstColumnReviews, secondColumnReviews } from '../../mocks/reviews';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import type { Movie } from '../../types/movie';
 import { useState } from 'react';
 import Tabs from '../../components/tabs/tabs';
 import Tab from '../../components/tabs/tab';
 import { toHourAndMinute } from '../../utils/formatted-time';
-import { getAddReviewLink, getMovieLink, PageLink } from '../../utils/links';
-import { Review } from '../../components/review/review';
-import { movies } from '../../mocks/movies';
-import { MovieItem } from '../../components/movie-item/movie-item';
+import { getAddReviewLink, PageLink } from '../../utils/links';
+import { Review, ReviewProps } from '../../components/review/review';
+import { FilteredMovieItems } from '../../components/filtered-movie-items/filtered-movie-items';
+import { useAppSelector } from '../../hooks/store-helpers';
 
 enum TabId {
   Overview = 'Overview',
@@ -25,26 +24,12 @@ enum TabId {
 export default function MoviePage() {
   const [tabId, setTabId] = useState(TabId.Overview);
   const movieId = useParams().id;
+  const { movies, reviews } = useAppSelector((state) => state);
   const movie = movies.find((m) => m.id.toString() === movieId);
 
   if (!movie) {
     return <Navigate to={PageLink.NotFound} />;
   }
-
-  const moviesSameGenre = movies
-    .filter((m) => m.genre === movie.genre && m.id !== movie.id)
-    .slice(0, 4)
-    .map((m) => (
-      <MovieItem
-        key={m.id}
-        videoLink={m.videoLink}
-        posterImage={m.posterImage}
-        width='280'
-        height='175'
-        name={m.name}
-        href={getMovieLink(m.id)}
-      />
-    ));
 
   return (
     <>
@@ -104,22 +89,22 @@ export default function MoviePage() {
 
               {tabId === TabId.Overview && OverviewInfo(movie)}
               {tabId === TabId.Details && DetailsInfo(movie)}
-              {tabId === TabId.Reviews && <ReviewsInfo />}
+              {tabId === TabId.Reviews && ReviewsInfo(reviews)}
             </div>
           </div>
         </div>
       </section>
 
       <div className='page-content'>
-        {moviesSameGenre.length > 0 && (
-          <section className='catalog catalog--like-this'>
-            <h2 className='catalog__title'>More like this</h2>
+        <section className='catalog catalog--like-this'>
+          <h2 className='catalog__title'>More like this</h2>
 
-            <div className='catalog__films-list'>
-              {moviesSameGenre}
-            </div>
-          </section>
-        )}
+          <FilteredMovieItems
+            movies={movies}
+            filter={(m) => m.genre === movie.genre && m.id !== movie.id}
+            maxCount={4}
+          />
+        </section>
 
         <footer className='page-footer'>
           <Logo href={PageLink.Main} light />
@@ -218,14 +203,15 @@ function DetailsInfo(movie: Movie) {
   );
 }
 
-function ReviewsInfo() {
+function ReviewsInfo(reviewProps: ReviewProps[]) {
+  const firstColumnItems = (reviewProps.length + 1) / 2;
   return (
     <div className='film-card__reviews film-card__row'>
       <div className='film-card__reviews-col'>
-        {firstColumnReviews.map((p) => <Review key={p.id} {...p} />)}
+        {reviewProps.slice(0, firstColumnItems).map((p) => <Review key={p.id} {...p} />)}
       </div>
       <div className='film-card__reviews-col'>
-        {secondColumnReviews.map((p) => <Review key={p.id} {...p} />)}
+        {reviewProps.slice(firstColumnItems).map((p) => <Review key={p.id} {...p} />)}
       </div>
     </div>
   );

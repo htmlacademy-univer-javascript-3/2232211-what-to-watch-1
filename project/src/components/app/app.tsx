@@ -8,7 +8,6 @@ import PlayerPage from '../../pages/player/player';
 import NotFoundPage from '../../pages/not-found/not-found';
 import { PageLink } from '../../utils/links';
 import PrivateRoute from '../private-route/private-route';
-import { movies, promoMovie } from '../../mocks/movies';
 
 function App(): JSX.Element {
   return (
@@ -17,10 +16,7 @@ function App(): JSX.Element {
         <Route
           path={PageLink.Main}
           element={
-            <Main
-              promoMovie={promoMovie}
-              movies={movies}
-            />
+            <Main />
           }
         />
         <Route
