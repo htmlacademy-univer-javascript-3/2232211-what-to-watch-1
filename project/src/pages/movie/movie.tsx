@@ -104,7 +104,7 @@ export default function MoviePage() {
 
               {tabId === TabId.Overview && OverviewInfo(movie)}
               {tabId === TabId.Details && DetailsInfo(movie)}
-              {tabId === TabId.Reviews && <ReviewsInfo />}
+              {tabId === TabId.Reviews && ReviewsInfo(reviews)}
             </div>
           </div>
         </div>
@@ -218,14 +218,15 @@ function DetailsInfo(movie: Movie) {
   );
 }
 
-function ReviewsInfo() {
+function ReviewsInfo(reviewProps: ReviewProps[]) {
+  const firstColumnItems = (reviewProps.length + 1) / 2;
   return (
     <div className='film-card__reviews film-card__row'>
       <div className='film-card__reviews-col'>
-        {firstColumnReviews.map((p) => <Review key={p.id} {...p} />)}
+        {reviewProps.slice(0, firstColumnItems).map((p) => <Review key={p.id} {...p} />)}
       </div>
       <div className='film-card__reviews-col'>
-        {secondColumnReviews.map((p) => <Review key={p.id} {...p} />)}
+        {reviewProps.slice(firstColumnItems).map((p) => <Review key={p.id} {...p} />)}
       </div>
     </div>
   );

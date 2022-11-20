@@ -1,6 +1,6 @@
 import { ReviewProps } from '../components/review/review';
 
-export const firstColumnReviews: ReviewProps[] = [
+export const reviewsMock: ReviewProps[] = [
   {
     id: 1,
     user: {
@@ -21,11 +21,8 @@ export const firstColumnReviews: ReviewProps[] = [
     comment: 'I personally found this movie to be boring. Definitely one of the most boring movies I\'ve ever seen.',
     date: '2022-06-23T12:25:36.946Z'
   },
-];
-
-export const secondColumnReviews: ReviewProps[] = [
   {
-    id: 1,
+    id: 3,
     user: {
       id: 13,
       name: 'Zak'
@@ -35,7 +32,7 @@ export const secondColumnReviews: ReviewProps[] = [
     date: '2022-06-07T12:25:36.946Z'
   },
   {
-    id: 2,
+    id: 4,
     user: {
       id: 17,
       name: 'Emely'

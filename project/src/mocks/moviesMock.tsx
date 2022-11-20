@@ -1,6 +1,6 @@
 import type { Movie } from '../types/movie';
 
-export const promoMovie: Movie = {
+export const promoMovieMock: Movie = {
   name: 'Snatch',
   posterImage: 'https://10.react.pages.academy/static/film/poster/Snatch.jpg',
   previewImage: 'https://10.react.pages.academy/static/film/preview/snatch.jpg',
@@ -24,7 +24,7 @@ export const promoMovie: Movie = {
   previewVideoLink: 'https://10.react.pages.academy/static/film/video/dog.mp4'
 };
 
-export const movies: Movie[] = [
+export const moviesMock: Movie[] = [
   {
     name: 'Snatch',
     posterImage: 'https://10.react.pages.academy/static/film/poster/Snatch.jpg',
