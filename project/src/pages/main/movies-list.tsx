@@ -1,5 +1,6 @@
 import { AllGenresTab } from '../../components/genre-list/genre-list';
 import { useAppSelector } from '../../hooks/store-helpers';
+import { FilteredMovieItems } from '../../components/filtered-movie-items/filtered-movie-items';
 import { Movie } from '../../types/movie';
 
 interface MoviesListProps {
@@ -28,21 +29,10 @@ export default function MoviesList({movies}: MoviesListProps) {
         ))}
       </Tabs>
 
-      <div className='catalog__films-list'>
-        {movies
-          .filter((movie) => selectedTab === allGenresTab || movie.genre === selectedTab)
-          .map((movie) => (
-            <MovieItem
-              key={movie.id}
-              videoLink={movie.videoLink}
-              posterImage={movie.posterImage}
-              width='280'
-              height='175'
-              name={movie.name}
-              href={getMovieLink(movie.id)}
-            />
-          ))}
-      </div>
+      <FilteredMovieItems
+        movies={movies}
+        filter={(movie) => activeTab === AllGenresTab || movie.genre === activeTab}
+      />
     </>
   );
 }

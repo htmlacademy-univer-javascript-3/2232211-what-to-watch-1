@@ -2,7 +2,7 @@ import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import UserAvatar from '../../components/user/user-avatar';
 import SignOut from '../../components/sign-out/sign-out';
-import { getMovieLink, PageLink } from '../../utils/links';
+import { PageLink } from '../../utils/links';
 import { FilteredMovieItems } from '../../components/filtered-movie-items/filtered-movie-items';
 import { useAppSelector } from '../../hooks/store-helpers';
 
@@ -28,21 +28,10 @@ export default function MyListPage() {
       <section className='catalog'>
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
-        <div className='catalog__films-list'>
-          {movies
-            .filter((movie) => movie.isFavorite)
-            .map((movie) => (
-              <MovieItem
-                key={movie.id}
-                videoLink={movie.videoLink}
-                posterImage={movie.posterImage}
-                width='280'
-                height='175'
-                name={movie.name}
-                href={getMovieLink(movie.id)}
-              />
-            ))}
-        </div>
+        <FilteredMovieItems
+          movies={movies}
+          filter={(movie) => movie.isFavorite}
+        />
       </section>
 
       <Footer logoHref={PageLink.Main} />
