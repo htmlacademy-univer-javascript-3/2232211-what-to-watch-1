@@ -1,9 +1,10 @@
 import { AllGenresTab, GenreList } from '../../components/genre-list/genre-list';
-import { useAppSelector } from '../../hooks/store-helpers';
-import { FilteredMovieItems } from '../../components/filtered-movie-items/filtered-movie-items';
+import { useAppDispatch, useAppSelector } from '../../hooks/store-helpers';
 import { Movie } from '../../types/movie';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import { getFilteredMovieItems } from '../../utils/functions';
+import { useEffect } from 'react';
+import { resetMoviesToViewCount } from '../../store/action';
 
 interface MoviesListProps {
   movies: Movie[];
@@ -17,6 +18,12 @@ export default function MoviesList({movies}: MoviesListProps) {
     filter: (movie) => activeTab === AllGenresTab || movie.genre === activeTab,
     maxCount: moviesToViewCount
   });
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(resetMoviesToViewCount());
+  }, [dispatch]);
 
   return (
     <>
