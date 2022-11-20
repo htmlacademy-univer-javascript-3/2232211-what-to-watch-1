@@ -3,11 +3,12 @@ import FullScreenIcon from '../../components/icons/full-screen';
 import PauseIcon from '../../components/icons/pause-icon';
 import { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import { movies } from '../../mocks/movies';
 import { PageLink } from '../../utils/links';
+import { useAppSelector } from '../../hooks/store-helpers';
 
 export default function PlayerPage() {
   const movieId = useParams().id;
+  const { movies } = useAppSelector((state) => state);
   const movie = movies.find((m) => m.id.toString() === movieId);
   const [isPaused, setIsPaused] = useState(false);
 

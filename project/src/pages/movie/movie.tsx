@@ -4,17 +4,15 @@ import MovieButton from '../../components/buttons/movie-button';
 import PlayIcon from '../../components/icons/play-icon';
 import AddIcon from '../../components/icons/add-icon';
 import Copyright from '../../components/copyright/copyright';
-import { firstColumnReviews, secondColumnReviews } from '../../mocks/reviews';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import type { Movie } from '../../types/movie';
 import { useState } from 'react';
 import Tabs from '../../components/tabs/tabs';
 import Tab from '../../components/tabs/tab';
 import { toHourAndMinute } from '../../utils/formatted-time';
-import { getAddReviewLink, getMovieLink, PageLink } from '../../utils/links';
-import { Review } from '../../components/review/review';
-import { movies } from '../../mocks/movies';
-import { MovieItem } from '../../components/movie-item/movie-item';
+import { getAddReviewLink, PageLink } from '../../utils/links';
+import { Review, ReviewProps } from '../../components/review/review';
+import { useAppSelector } from '../../hooks/store-helpers';
 
 enum TabId {
   Overview = 'Overview',
@@ -25,6 +23,7 @@ enum TabId {
 export default function MoviePage() {
   const [tabId, setTabId] = useState(TabId.Overview);
   const movieId = useParams().id;
+  const { movies, reviews } = useAppSelector((state) => state);
   const movie = movies.find((m) => m.id.toString() === movieId);
 
   if (!movie) {

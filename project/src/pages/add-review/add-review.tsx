@@ -2,12 +2,13 @@ import Header from '../../components/header/header';
 import { Navigate, useParams } from 'react-router-dom';
 import React from 'react';
 import { PageLink } from '../../utils/links';
-import { movies } from '../../mocks/movies';
 import Navigation from './navigation';
 import AddReviewForm from './add-review-form';
+import { useAppSelector } from '../../hooks/store-helpers';
 
 export default function AddReviewPage() {
   const movieId = useParams().id;
+  const { movies } = useAppSelector((state) => state);
   const movie = movies.find((m) => m.id.toString() === movieId);
 
   if (!movie) {

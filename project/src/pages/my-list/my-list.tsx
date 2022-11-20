@@ -2,11 +2,13 @@ import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import UserAvatar from '../../components/user/user-avatar';
 import SignOut from '../../components/sign-out/sign-out';
-import { movies } from '../../mocks/movies';
 import { getMovieLink, PageLink } from '../../utils/links';
-import { MovieItem } from '../../components/movie-item/movie-item';
+import { FilteredMovieItems } from '../../components/filtered-movie-items/filtered-movie-items';
+import { useAppSelector } from '../../hooks/store-helpers';
 
 export default function MyListPage() {
+  const { movies } = useAppSelector((state) => state);
+
   return (
     <div className='user-page'>
       <header className='page-header user-page__head'>

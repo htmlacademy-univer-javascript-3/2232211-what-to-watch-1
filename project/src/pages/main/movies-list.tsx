@@ -1,19 +1,13 @@
-import type { Movie } from '../../types/movie';
-import { useState } from 'react';
-import Tabs from '../../components/tabs/tabs';
-import Tab from '../../components/tabs/tab';
-import { Link } from 'react-router-dom';
-import { MovieItem } from '../../components/movie-item/movie-item';
-import { getMovieLink } from '../../utils/links';
+import { AllGenresTab } from '../../components/genre-list/genre-list';
+import { useAppSelector } from '../../hooks/store-helpers';
+import { Movie } from '../../types/movie';
 
 interface MoviesListProps {
   movies: Movie[];
 }
 
 export default function MoviesList({movies}: MoviesListProps) {
-  const allGenresTab = 'All genres';
-  const tabs = [allGenresTab, ...new Set(movies.map((movie) => movie.genre))].slice(0, 10);
-  const [selectedTab, setSelectedTab] = useState(allGenresTab);
+  const { activeTab } = useAppSelector((state) => state);
 
   return (
     <>

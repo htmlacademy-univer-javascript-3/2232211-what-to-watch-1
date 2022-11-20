@@ -1,15 +1,12 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import type { Movie } from '../../types/movie';
 import PromoMovieInfo from './promo-movie-info';
 import MoviesList from './movies-list';
+import { useAppSelector } from '../../hooks/store-helpers';
 
-interface MainProps {
-  promoMovie: Movie;
-  movies: Movie[];
-}
+export default function Main() {
+  const { movies, promoMovie } = useAppSelector((state) => state);
 
-export default function Main({promoMovie, movies}: MainProps) {
   return (
     <>
       <section className='film-card'>
