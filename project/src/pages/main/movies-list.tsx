@@ -1,4 +1,4 @@
-import { AllGenresTab } from '../../components/genre-list/genre-list';
+import { AllGenresTab, GenreList } from '../../components/genre-list/genre-list';
 import { useAppSelector } from '../../hooks/store-helpers';
 import { FilteredMovieItems } from '../../components/filtered-movie-items/filtered-movie-items';
 import { Movie } from '../../types/movie';
@@ -12,22 +12,7 @@ export default function MoviesList({movies}: MoviesListProps) {
 
   return (
     <>
-      <Tabs
-        value={selectedTab}
-        onValueChange={setSelectedTab}
-        className='catalog__genres-list'
-        activeTabClassName='catalog__genres-item--active'
-      >
-        {tabs.map((tab) => (
-          <Tab
-            key={tab}
-            id={tab}
-            className='catalog__genres-item'
-          >
-            <Link to='#' className='catalog__genres-link'>{tab}</Link>
-          </Tab>
-        ))}
-      </Tabs>
+      <GenreList movies={movies} />
 
       <FilteredMovieItems
         movies={movies}
