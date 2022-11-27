@@ -6,7 +6,7 @@ import AddIcon from '../../components/icons/add-icon';
 import Copyright from '../../components/copyright/copyright';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import type { Movie } from '../../types/movie';
-import { useState } from 'react';
+import { useEffect, useState} from 'react';
 import Tabs from '../../components/tabs/tabs';
 import Tab from '../../components/tabs/tab';
 import { toHourAndMinute } from '../../utils/formatted-time';
@@ -26,6 +26,15 @@ enum TabId {
 export default function MoviePage() {
   const [tabId, setTabId] = useState(TabId.Overview);
   const movieId = useParams().id;
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (movieId) {
+      dispatch(getReviewsAction(movieId));
+    }
+  }, [dispatch]);
+
   const { movies, moviesLoading } = useAppSelector((state) => state.movies);
   const { reviews, reviewsLoading } = useAppSelector((state) => state.reviews);
 
