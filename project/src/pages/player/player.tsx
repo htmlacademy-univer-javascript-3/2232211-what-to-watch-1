@@ -14,11 +14,7 @@ export default function PlayerPage() {
   const { movies, moviesLoading } = useAppSelector((state) => state.movies);
 
   if (moviesLoading) {
-    return (
-      <Spinner>
-        Movies are loading..
-      </Spinner>
-    );
+    return <Spinner>Movies are loading..</Spinner>;
   }
 
   const movie = movies.find((m) => m.id.toString() === movieId);

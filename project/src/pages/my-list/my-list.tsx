@@ -11,11 +11,7 @@ export default function MyListPage() {
   const { movies, moviesLoading } = useAppSelector((state) => state.movies);
 
   if (moviesLoading) {
-    return (
-      <Spinner>
-        Movies are loading..
-      </Spinner>
-    );
+    return <Spinner>Movies are loading..</Spinner>;
   }
 
   const favoriteMovies = getFilteredMovieItems({

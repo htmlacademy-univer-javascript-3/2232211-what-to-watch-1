@@ -15,11 +15,7 @@ export default function Main() {
         <h1 className='visually-hidden'>WTW</h1>
         <Header userAvatarImageSource='img/avatar.jpg' />
         {promoMovieLoading || !promoMovie
-          ? (
-            <Spinner>
-              Promo movie is loading..
-            </Spinner>
-          )
+          ? <Spinner>Promo movie is loading..</Spinner>
           : <PromoMovieInfo promoMovie={promoMovie} movies={movies} />}
       </section>
       <div className='page-content'>
@@ -27,11 +23,7 @@ export default function Main() {
           <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
           {moviesLoading
-            ? (
-              <Spinner>
-                Movies are loading..
-              </Spinner>
-            )
+            ? <Spinner>Movies are loading..</Spinner>
             : <MoviesList movies={movies}/>}
         </section>
 
