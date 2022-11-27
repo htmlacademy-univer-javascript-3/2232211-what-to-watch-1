@@ -8,6 +8,7 @@ import PlayerPage from '../../pages/player/player';
 import NotFoundPage from '../../pages/not-found/not-found';
 import { PageLink } from '../../utils/links';
 import PrivateRoute from '../private-route/private-route';
+import SignOutPage from '../../pages/sign-out/sign-out';
 
 function App(): JSX.Element {
   return (
@@ -42,6 +43,10 @@ function App(): JSX.Element {
         <Route
           path={PageLink.Player}
           element={<PlayerPage />}
+        />
+        <Route
+          path={PageLink.SignOut}
+          element={<SignOutPage />}
         />
         <Route
           path='*'
