@@ -3,9 +3,8 @@ import Tab from '../tabs/tab';
 import { Link } from 'react-router-dom';
 import Tabs from '../tabs/tabs';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-helpers';
-import { changeActiveTab, resetMoviesToViewCount } from '../../store/action';
-
-export const AllGenresTab = 'All genres';
+import { AllGenresTab, setActiveTab } from '../../store/slices/active-tab-slice';
+import { resetMoviesToViewCount } from '../../store/slices/movies-slice';
 
 interface GenreListProps {
   movies: Movie[];
@@ -13,11 +12,11 @@ interface GenreListProps {
 
 export function GenreList({movies}: GenreListProps) {
   const tabs = [AllGenresTab, ...new Set(movies.map((movie) => movie.genre))].slice(0, 10);
-  const { activeTab } = useAppSelector((state) => state);
+  const { activeTab } = useAppSelector((state) => state.activeTab);
   const dispatch = useAppDispatch();
 
   const handleChangeActiveGenre = (genre: string) => {
-    dispatch(changeActiveTab({ newTab: genre }));
+    dispatch(setActiveTab(genre));
     dispatch(resetMoviesToViewCount());
   };
 

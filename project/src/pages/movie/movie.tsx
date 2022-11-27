@@ -14,6 +14,7 @@ import { getAddReviewLink, PageLink } from '../../utils/links';
 import { Review, ReviewProps } from '../../components/review/review';
 import { getFilteredMovieItems } from '../../utils/functions';
 import { useAppSelector } from '../../hooks/store-helpers';
+import Spinner from '../../components/spinner/spinner';
 
 enum TabId {
   Overview = 'Overview',
@@ -24,7 +25,17 @@ enum TabId {
 export default function MoviePage() {
   const [tabId, setTabId] = useState(TabId.Overview);
   const movieId = useParams().id;
-  const { movies, reviews } = useAppSelector((state) => state);
+  const { movies, moviesLoading } = useAppSelector((state) => state.movies);
+  const { reviews, reviewsLoading } = useAppSelector((state) => state.reviews);
+
+  if (moviesLoading || reviewsLoading) {
+    return (
+      <Spinner>
+        Loading..
+      </Spinner>
+    );
+  }
+
   const movie = movies.find((m) => m.id.toString() === movieId);
 
   if (!movie) {

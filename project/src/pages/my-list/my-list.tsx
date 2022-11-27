@@ -5,9 +5,19 @@ import SignOut from '../../components/sign-out/sign-out';
 import { PageLink } from '../../utils/links';
 import { getFilteredMovieItems } from '../../utils/functions';
 import { useAppSelector } from '../../hooks/store-helpers';
+import Spinner from '../../components/spinner/spinner';
 
 export default function MyListPage() {
-  const { movies } = useAppSelector((state) => state);
+  const { movies, moviesLoading } = useAppSelector((state) => state.movies);
+
+  if (moviesLoading) {
+    return (
+      <Spinner>
+        Movies are loading..
+      </Spinner>
+    );
+  }
+
   const favoriteMovies = getFilteredMovieItems({
     movies,
     filter: (movie) => movie.isFavorite

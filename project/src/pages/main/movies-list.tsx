@@ -1,17 +1,19 @@
-import { AllGenresTab, GenreList } from '../../components/genre-list/genre-list';
+import { GenreList } from '../../components/genre-list/genre-list';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-helpers';
 import { Movie } from '../../types/movie';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import { getFilteredMovieItems } from '../../utils/functions';
 import { useEffect } from 'react';
-import { resetMoviesToViewCount } from '../../store/action';
+import { AllGenresTab } from '../../store/slices/active-tab-slice';
+import { resetMoviesToViewCount } from '../../store/slices/movies-slice';
 
 interface MoviesListProps {
   movies: Movie[];
 }
 
 export default function MoviesList({movies}: MoviesListProps) {
-  const { activeTab, moviesToViewCount } = useAppSelector((state) => state);
+  const { moviesToViewCount } = useAppSelector((state) => state.movies);
+  const { activeTab } = useAppSelector((state) => state.activeTab);
 
   const filteredByGenreMovies = getFilteredMovieItems({
     movies,
