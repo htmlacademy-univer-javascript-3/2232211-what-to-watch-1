@@ -3,11 +3,15 @@ import Logo from '../../components/logo/logo';
 import UserAvatar from '../../components/user/user-avatar';
 import SignOut from '../../components/sign-out/sign-out';
 import { PageLink } from '../../utils/links';
-import { FilteredMovieItems } from '../../components/filtered-movie-items/filtered-movie-items';
+import { getFilteredMovieItems } from '../../utils/functions';
 import { useAppSelector } from '../../hooks/store-helpers';
 
 export default function MyListPage() {
   const { movies } = useAppSelector((state) => state);
+  const favoriteMovies = getFilteredMovieItems({
+    movies,
+    filter: (movie) => movie.isFavorite
+  });
 
   return (
     <div className='user-page'>
@@ -28,10 +32,9 @@ export default function MyListPage() {
       <section className='catalog'>
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
-        <FilteredMovieItems
-          movies={movies}
-          filter={(movie) => movie.isFavorite}
-        />
+        <div className='catalog__films-list'>
+          {favoriteMovies}
+        </div>
       </section>
 
       <Footer logoHref={PageLink.Main} />

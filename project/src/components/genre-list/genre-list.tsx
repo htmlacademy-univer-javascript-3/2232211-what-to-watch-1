@@ -3,7 +3,7 @@ import Tab from '../tabs/tab';
 import { Link } from 'react-router-dom';
 import Tabs from '../tabs/tabs';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-helpers';
-import { changeActiveTab } from '../../store/action';
+import { changeActiveTab, resetMoviesToViewCount } from '../../store/action';
 
 export const AllGenresTab = 'All genres';
 
@@ -18,6 +18,7 @@ export function GenreList({movies}: GenreListProps) {
 
   const handleChangeActiveGenre = (genre: string) => {
     dispatch(changeActiveTab({ newTab: genre }));
+    dispatch(resetMoviesToViewCount());
   };
 
   return (

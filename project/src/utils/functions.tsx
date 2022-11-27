@@ -1,6 +1,6 @@
-import { Movie } from '../../types/movie';
-import { MovieItem } from '../movie-item/movie-item';
-import { getMovieLink } from '../../utils/links';
+import { Movie } from '../types/movie';
+import { MovieItem } from '../components/movie-item/movie-item';
+import { getMovieLink } from './links';
 
 interface FilteredMovieItemsProps {
   movies: Movie[];
@@ -8,7 +8,7 @@ interface FilteredMovieItemsProps {
   maxCount?: number;
 }
 
-export function FilteredMovieItems({movies, filter, maxCount}: FilteredMovieItemsProps) {
+export function getFilteredMovieItems({movies, filter, maxCount}: FilteredMovieItemsProps) {
   let movieItems = movies
     .filter(filter)
     .map((movie) => (
@@ -27,9 +27,5 @@ export function FilteredMovieItems({movies, filter, maxCount}: FilteredMovieItem
     movieItems = movieItems.slice(0, maxCount);
   }
 
-  return (
-    <div className='catalog__films-list'>
-      {movieItems}
-    </div>
-  );
+  return movieItems;
 }

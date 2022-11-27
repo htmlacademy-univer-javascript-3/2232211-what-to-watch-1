@@ -6,3 +6,5 @@ export const changeActiveTab = createAction<{ newTab: string }>('changeActiveTab
 export const setMovies = createAction<{ movies: Movie[] }>('setMoviesList');
 export const setPromoMovie = createAction<{ promoMovie: Movie }>('setPromoMovie');
 export const setReviews = createAction<{ reviews: ReviewProps[] }>('setReviews');
+export const showMoreMoviesToView = createAction('showMoreMoviesToView');
+export const resetMoviesToViewCount = createAction('resetMoviesToViewCount');
