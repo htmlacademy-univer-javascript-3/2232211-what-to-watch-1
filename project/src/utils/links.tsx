@@ -1,6 +1,7 @@
 export enum PageLink {
   Main = '/',
   SignIn = '/login',
+  SignOut = '/logout',
   MyList = '/myList',
   Film = '/films/:id',
   AddReview = '/films/:id/review',
