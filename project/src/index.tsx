@@ -5,6 +5,9 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import { getMoviesAction } from './store/slices/movies-slice';
 import { getPromoMovieAction } from './store/slices/promo-movie-slice';
+import { checkAuthAction } from './store/slices/authorization-slice';
+
+store.dispatch(checkAuthAction());
 
 store.dispatch(getPromoMovieAction());
 store.dispatch(getMoviesAction());
