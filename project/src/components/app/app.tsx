@@ -1,5 +1,5 @@
 import AddReviewPage from '../../pages/add-review/add-review';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, useRoutes } from 'react-router-dom';
 import Main from '../../pages/main/main';
 import SignInPage from '../../pages/sign-in/sign-in';
 import MyListPage from '../../pages/my-list/my-list';
