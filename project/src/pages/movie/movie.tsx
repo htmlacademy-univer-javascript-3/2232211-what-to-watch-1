@@ -16,6 +16,7 @@ import { getFilteredMovieItems } from '../../utils/functions';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-helpers';
 import Spinner from '../../components/spinner/spinner';
 import { getReviewsAction } from '../../store/slices/reviews-slice';
+import { AuthorizationStatus } from '../../constants';
 
 enum TabId {
   Overview = 'Overview',
@@ -37,6 +38,7 @@ export default function MoviePage() {
 
   const { movies, moviesLoading } = useAppSelector((state) => state.movies);
   const { reviews, reviewsLoading } = useAppSelector((state) => state.reviews);
+  const { authorizationStatus } = useAppSelector((state) => state.authorization);
 
   if (moviesLoading) {
     return <Spinner>Loading movies..</Spinner>;
@@ -82,9 +84,11 @@ export default function MoviePage() {
                 <MovieButton icon={<AddIcon/>} moviesListCount={9}>
                   My list
                 </MovieButton>
-                <Link to={getAddReviewLink(movie.id)} className='btn film-card__button'>
-                  Add review
-                </Link>
+                {authorizationStatus === AuthorizationStatus.Auth && (
+                  <Link to={getAddReviewLink(movie.id)} className='btn film-card__button'>
+                    Add review
+                  </Link>
+                )}
               </div>
             </div>
           </div>
