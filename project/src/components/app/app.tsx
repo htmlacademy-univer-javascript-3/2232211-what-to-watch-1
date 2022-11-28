@@ -9,50 +9,36 @@ import NotFoundPage from '../../pages/not-found/not-found';
 import { PageLink } from '../../utils/links';
 import PrivateRoute from '../private-route/private-route';
 import SignOutPage from '../../pages/sign-out/sign-out';
+import { useAppSelector } from '../../hooks/store-helpers';
+import { AuthorizationStatus } from '../../constants';
+import Spinner from '../spinner/spinner';
+
+function AppRoutes() {
+  return useRoutes(
+    [
+      {path: PageLink.Main, element: <Main />},
+      {path: PageLink.SignIn, element: <SignInPage />},
+      {path: PageLink.MyList, element: <PrivateRoute><MyListPage /></PrivateRoute>},
+      {path: PageLink.Film, element: <MoviePage />},
+      {path: PageLink.AddReview, element: <AddReviewPage />},
+      {path: PageLink.Player, element: <PlayerPage />},
+      {path: PageLink.Film, element: <MoviePage />},
+      {path: PageLink.SignOut, element: <SignOutPage />},
+      {path: '*', element: <NotFoundPage/>}
+    ]
+  );
+}
 
 function App(): JSX.Element {
+  const {authorizationStatus} = useAppSelector((state) => state.authorization);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
+    return <Spinner>Waiting authorization..</Spinner>;
+  }
+
   return (
     <BrowserRouter>
-      <Routes>
-        <Route
-          path={PageLink.Main}
-          element={
-            <Main />
-          }
-        />
-        <Route
-          path={PageLink.SignIn}
-          element={<SignInPage />}
-        />
-        <Route
-          path={PageLink.MyList}
-          element={
-            <PrivateRoute>
-              <MyListPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={PageLink.Film}
-          element={<MoviePage />}
-        />
-        <Route
-          path={PageLink.AddReview}
-          element={<AddReviewPage />}
-        />
-        <Route
-          path={PageLink.Player}
-          element={<PlayerPage />}
-        />
-        <Route
-          path={PageLink.SignOut}
-          element={<SignOutPage />}
-        />
-        <Route
-          path='*'
-          element={<NotFoundPage />}
-        />
-      </Routes>
+      <AppRoutes />
     </BrowserRouter>
   );
 }
