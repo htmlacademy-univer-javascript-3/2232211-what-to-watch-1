@@ -5,10 +5,16 @@ import { PageLink } from '../../utils/links';
 import Navigation from './navigation';
 import AddReviewForm from './add-review-form';
 import { useAppSelector } from '../../hooks/store-helpers';
+import Spinner from '../../components/spinner/spinner';
 
 export default function AddReviewPage() {
   const movieId = useParams().id;
-  const { movies } = useAppSelector((state) => state);
+  const { movies, moviesLoading } = useAppSelector((state) => state.movies);
+
+  if (moviesLoading) {
+    return <Spinner>Movies are loading..</Spinner>;
+  }
+
   const movie = movies.find((m) => m.id.toString() === movieId);
 
   if (!movie) {

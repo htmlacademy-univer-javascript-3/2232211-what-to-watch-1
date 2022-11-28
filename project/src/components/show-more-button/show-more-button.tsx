@@ -1,5 +1,5 @@
 import { useAppDispatch } from '../../hooks/store-helpers';
-import { showMoreMoviesToView } from '../../store/action';
+import { showMoreMoviesToView } from '../../store/slices/movies-slice';
 
 export default function ShowMoreButton() {
   const dispatch = useAppDispatch();

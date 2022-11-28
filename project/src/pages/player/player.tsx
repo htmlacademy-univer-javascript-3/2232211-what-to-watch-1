@@ -5,12 +5,19 @@ import { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { PageLink } from '../../utils/links';
 import { useAppSelector } from '../../hooks/store-helpers';
+import Spinner from '../../components/spinner/spinner';
 
 export default function PlayerPage() {
   const movieId = useParams().id;
-  const { movies } = useAppSelector((state) => state);
-  const movie = movies.find((m) => m.id.toString() === movieId);
   const [isPaused, setIsPaused] = useState(false);
+
+  const { movies, moviesLoading } = useAppSelector((state) => state.movies);
+
+  if (moviesLoading) {
+    return <Spinner>Movies are loading..</Spinner>;
+  }
+
+  const movie = movies.find((m) => m.id.toString() === movieId);
 
   if (!movie) {
     return <Navigate to={PageLink.NotFound} />;

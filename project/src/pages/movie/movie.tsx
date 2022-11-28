@@ -6,14 +6,16 @@ import AddIcon from '../../components/icons/add-icon';
 import Copyright from '../../components/copyright/copyright';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import type { Movie } from '../../types/movie';
-import { useState } from 'react';
+import { useEffect, useState} from 'react';
 import Tabs from '../../components/tabs/tabs';
 import Tab from '../../components/tabs/tab';
 import { toHourAndMinute } from '../../utils/formatted-time';
 import { getAddReviewLink, PageLink } from '../../utils/links';
 import { Review, ReviewProps } from '../../components/review/review';
 import { getFilteredMovieItems } from '../../utils/functions';
-import { useAppSelector } from '../../hooks/store-helpers';
+import { useAppDispatch, useAppSelector } from '../../hooks/store-helpers';
+import Spinner from '../../components/spinner/spinner';
+import { getReviewsAction } from '../../store/slices/reviews-slice';
 
 enum TabId {
   Overview = 'Overview',
@@ -24,7 +26,22 @@ enum TabId {
 export default function MoviePage() {
   const [tabId, setTabId] = useState(TabId.Overview);
   const movieId = useParams().id;
-  const { movies, reviews } = useAppSelector((state) => state);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (movieId) {
+      dispatch(getReviewsAction(movieId));
+    }
+  }, [dispatch]);
+
+  const { movies, moviesLoading } = useAppSelector((state) => state.movies);
+  const { reviews, reviewsLoading } = useAppSelector((state) => state.reviews);
+
+  if (moviesLoading) {
+    return <Spinner>Loading movies..</Spinner>;
+  }
+
   const movie = movies.find((m) => m.id.toString() === movieId);
 
   if (!movie) {
@@ -95,7 +112,11 @@ export default function MoviePage() {
 
               {tabId === TabId.Overview && OverviewInfo(movie)}
               {tabId === TabId.Details && DetailsInfo(movie)}
-              {tabId === TabId.Reviews && ReviewsInfo(reviews)}
+              {tabId === TabId.Reviews && (
+                reviewsLoading
+                  ? <Spinner>Reviews loading..</Spinner>
+                  : ReviewsInfo(reviews)
+              )}
             </div>
           </div>
         </div>
