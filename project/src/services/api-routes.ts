@@ -6,6 +6,7 @@ export enum ApiRoutes {
   Comments = '/comments/:movieId',
   Login = '/login',
   Logout = '/logout',
+  AddComment = '/comments/:movieId',
 }
 
 export function getCommentsLink(movieId: string): string {
@@ -18,4 +19,8 @@ export function getMovieLink(movieId: string): string {
 
 export function getSimilarMoviesLink(movieId: string): string {
   return ApiRoutes.SimilarMovies.replace(':movieId', movieId);
+}
+
+export function getAddCommentLink(movieId: string): string {
+  return ApiRoutes.AddComment.replace(':movieId', movieId);
 }
