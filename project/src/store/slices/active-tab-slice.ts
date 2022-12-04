@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { Namespace } from '../../constants';
 
 export const AllGenresTab = 'All genres';
 
 const activeTabSlice = createSlice({
-  name: 'activeTab',
+  name: Namespace.ActiveTab,
   initialState: {
     activeTab: AllGenresTab,
   },
