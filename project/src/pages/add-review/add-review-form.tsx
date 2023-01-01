@@ -1,13 +1,34 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import Rating from '../../components/rating/rating';
+import { PageLink } from '../../utils/links';
+import { api } from '../../services/api';
+import { getAddCommentLink } from '../../services/api-routes';
+import { useNavigate } from 'react-router-dom';
 
-export default function AddReviewForm() {
+interface AddReviewFormProps {
+  movieId: string;
+}
+
+export default function AddReviewForm({movieId}: AddReviewFormProps) {
   const [checked, setChecked] = useState(0);
   const [reviewMessage, setReviewMessage] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (checked !== 0 && reviewMessage) {
+      await api.post(getAddCommentLink(movieId), {
+        'comment': reviewMessage,
+        'rating': checked,
+      });
+      navigate(PageLink.Main);
+    }
+  };
 
   return (
     <div className='add-review'>
-      <form action='#' className='add-review__form'>
+      <form action='#' className='add-review__form' onSubmit={handleSubmit}>
         <Rating
           from={1}
           to={10}

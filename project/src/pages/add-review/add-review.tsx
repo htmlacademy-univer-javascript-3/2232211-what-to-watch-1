@@ -11,6 +11,10 @@ export default function AddReviewPage() {
   const movieId = useParams().id;
   const { movies, moviesLoading } = useAppSelector((state) => state.movies);
 
+  if (!movieId) {
+    return <Navigate to={PageLink.NotFound} />;
+  }
+
   if (moviesLoading) {
     return <Spinner>Movies are loading..</Spinner>;
   }
@@ -37,7 +41,7 @@ export default function AddReviewPage() {
         </div>
       </div>
 
-      <AddReviewForm />
+      <AddReviewForm movieId={movieId} />
     </section>
   );
 }

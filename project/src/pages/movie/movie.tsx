@@ -12,10 +12,11 @@ import Tab from '../../components/tabs/tab';
 import { toHourAndMinute } from '../../utils/formatted-time';
 import { getAddReviewLink, PageLink } from '../../utils/links';
 import { Review, ReviewProps } from '../../components/review/review';
-import { getFilteredMovieItems } from '../../utils/functions';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-helpers';
 import Spinner from '../../components/spinner/spinner';
-import { getReviewsAction } from '../../store/slices/reviews-slice';
+import { AuthorizationStatus } from '../../constants';
+import { getMovieAction, getReviewsAction, getSimilarMoviesAction } from '../../store/slices/movie-slice';
+import { getFilteredMovieItems } from '../../utils/functions';
 
 enum TabId {
   Overview = 'Overview',
@@ -31,25 +32,25 @@ export default function MoviePage() {
 
   useEffect(() => {
     if (movieId) {
+      dispatch(getMovieAction(movieId));
+      dispatch(getSimilarMoviesAction(movieId));
       dispatch(getReviewsAction(movieId));
     }
-  }, [dispatch]);
+  }, [dispatch, movieId]);
 
-  const { movies, moviesLoading } = useAppSelector((state) => state.movies);
-  const { reviews, reviewsLoading } = useAppSelector((state) => state.reviews);
+  const { movie, movieLoading, similarMovies, similarMoviesLoading, reviews, reviewsLoading } = useAppSelector((state) => state.movie);
+  const { authorizationStatus } = useAppSelector((state) => state.authorization);
 
-  if (moviesLoading) {
-    return <Spinner>Loading movies..</Spinner>;
+  if (movieLoading || similarMoviesLoading) {
+    return <Spinner>Loading..</Spinner>;
   }
-
-  const movie = movies.find((m) => m.id.toString() === movieId);
 
   if (!movie) {
     return <Navigate to={PageLink.NotFound} />;
   }
 
   const sameGenreMovies = getFilteredMovieItems({
-    movies,
+    movies: similarMovies,
     filter: (m) => m.genre === movie.genre && m.id !== movie.id,
     maxCount: 4
   });
@@ -82,9 +83,11 @@ export default function MoviePage() {
                 <MovieButton icon={<AddIcon/>} moviesListCount={9}>
                   My list
                 </MovieButton>
-                <Link to={getAddReviewLink(movie.id)} className='btn film-card__button'>
-                  Add review
-                </Link>
+                {authorizationStatus === AuthorizationStatus.Auth && (
+                  <Link to={getAddReviewLink(movie.id)} className='btn film-card__button'>
+                    Add review
+                  </Link>
+                )}
               </div>
             </div>
           </div>
