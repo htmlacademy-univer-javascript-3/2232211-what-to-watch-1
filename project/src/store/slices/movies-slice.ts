@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, SerializedError } from '@reduxjs/toolkit
 import { Movie } from '../../types/movie';
 import { api } from '../../services/api';
 import { ApiRoutes } from '../../services/api-routes';
+import { Namespace } from '../../constants';
 
 export const getMoviesAction = createAsyncThunk(
   'data/getMovies',
@@ -28,7 +29,7 @@ const initialState = {
 } as moviesInitialState;
 
 const moviesSlice = createSlice({
-  name: 'movies',
+  name: Namespace.Movies,
   initialState,
   reducers: {
     showMoreMoviesToView: (state) => {

@@ -3,6 +3,7 @@ import { api } from '../../services/api';
 import { Movie } from '../../types/movie';
 import { getCommentsLink, getMovieLink, getSimilarMoviesLink } from '../../services/api-routes';
 import { ReviewProps } from '../../components/review/review';
+import { Namespace } from '../../constants';
 
 export const getMovieAction = createAsyncThunk(
   'data/getMovie',
@@ -57,7 +58,7 @@ const initialState = {
 } as movieInitialState;
 
 const movieSlice = createSlice({
-  name: 'movie',
+  name: Namespace.Movie,
   initialState,
   reducers: {},
   extraReducers: (builder) => {

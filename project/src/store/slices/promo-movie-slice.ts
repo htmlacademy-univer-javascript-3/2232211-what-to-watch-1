@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, SerializedError } from '@reduxjs/toolkit
 import { Movie } from '../../types/movie';
 import { ApiRoutes } from '../../services/api-routes';
 import { api } from '../../services/api';
+import { Namespace } from '../../constants';
 
 export const getPromoMovieAction = createAsyncThunk(
   'data/getPromoMovie',
@@ -24,7 +25,7 @@ const initialState = {
 } as promoMovieInitialState;
 
 const promoMovieSlice = createSlice({
-  name: 'promoMovie',
+  name: Namespace.PromoMovie,
   initialState,
   reducers: {},
   extraReducers: (builder) => {

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { AuthorizationStatus } from '../../constants';
+import { AuthorizationStatus, Namespace } from '../../constants';
 import { api } from '../../services/api';
 import { ApiRoutes } from '../../services/api-routes';
 import { AuthData } from '../../types/auth-data';
@@ -29,7 +29,7 @@ export const logoutAction = createAsyncThunk(
 );
 
 const authorizationSlice = createSlice({
-  name: 'authorization',
+  name: Namespace.Authorization,
   initialState: {
     authorizationStatus: AuthorizationStatus.Unknown
   },
