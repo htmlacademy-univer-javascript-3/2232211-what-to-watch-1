@@ -2,7 +2,7 @@ import type { Movie } from '../../types/movie';
 import MovieButton from '../../components/buttons/movie-button';
 import PlayIcon from '../../components/icons/play-icon';
 import AddIcon from '../../components/icons/add-icon';
-import { getPlayerLink } from '../../utils/links';
+import { getPlayerLink, PageLink } from '../../utils/links';
 import { useNavigate } from 'react-router-dom';
 
 interface SelectedMovieInfoProps {
@@ -39,7 +39,7 @@ export default function PromoMovieInfo({
               <MovieButton icon={<PlayIcon/>} onClick={() => navigate(getPlayerLink(promoMovie.id))}>
                 Play
               </MovieButton>
-              <MovieButton icon={<AddIcon/>} moviesListCount={movies.filter((m) => m.isFavorite).length}>
+              <MovieButton icon={<AddIcon/>} moviesListCount={movies.filter((m) => m.isFavorite).length} onClick={() => navigate(PageLink.MyList)}>
                 My list
               </MovieButton>
             </div>

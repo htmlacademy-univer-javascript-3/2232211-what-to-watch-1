@@ -81,7 +81,7 @@ export default function MoviePage() {
                 <MovieButton icon={<PlayIcon/>} onClick={() => navigate(getPlayerLink(movie.id))}>
                   Play
                 </MovieButton>
-                <MovieButton icon={<AddIcon/>} moviesListCount={9}>
+                <MovieButton icon={<AddIcon/>} moviesListCount={9} onClick={() => navigate(PageLink.MyList)}>
                   My list
                 </MovieButton>
                 {authorizationStatus === AuthorizationStatus.Auth && (
