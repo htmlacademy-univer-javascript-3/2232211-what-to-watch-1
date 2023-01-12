@@ -17,6 +17,6 @@ export function getAddReviewLink(movieId: number): string {
   return PageLink.AddReview.replace(':id', movieId.toString());
 }
 
-export function getPlayerLink(playerId: string): string {
-  return PageLink.Player.replace(':id', playerId);
+export function getPlayerLink(movieId: number): string {
+  return PageLink.Player.replace(':id', movieId.toString());
 }

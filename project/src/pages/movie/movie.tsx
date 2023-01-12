@@ -4,13 +4,13 @@ import MovieButton from '../../components/buttons/movie-button';
 import PlayIcon from '../../components/icons/play-icon';
 import AddIcon from '../../components/icons/add-icon';
 import Copyright from '../../components/copyright/copyright';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import type { Movie } from '../../types/movie';
 import { useEffect, useState} from 'react';
 import Tabs from '../../components/tabs/tabs';
 import Tab from '../../components/tabs/tab';
 import { toHourAndMinute } from '../../utils/formatted-time';
-import { getAddReviewLink, PageLink } from '../../utils/links';
+import { getAddReviewLink, getPlayerLink, PageLink } from '../../utils/links';
 import { Review, ReviewProps } from '../../components/review/review';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-helpers';
 import Spinner from '../../components/spinner/spinner';
@@ -27,6 +27,7 @@ enum TabId {
 export default function MoviePage() {
   const [tabId, setTabId] = useState(TabId.Overview);
   const movieId = useParams().id;
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -77,7 +78,7 @@ export default function MoviePage() {
               </p>
 
               <div className='film-card__buttons'>
-                <MovieButton icon={<PlayIcon/>}>
+                <MovieButton icon={<PlayIcon/>} onClick={() => navigate(getPlayerLink(movie.id))}>
                   Play
                 </MovieButton>
                 <MovieButton icon={<AddIcon/>} moviesListCount={9}>
