@@ -16,9 +16,8 @@ const getRatingItems = (
   const values = [];
   for (let i = to; i >= from; i--) {
     values.push(
-      <>
+      <Fragment key={`rating-star-${i}`}>
         <input
-          key={`rating-input-${i}`}
           className='rating__input'
           id={`star-${i}`}
           type='radio'
@@ -28,13 +27,12 @@ const getRatingItems = (
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setChecked(parseInt(e.target.value, 10))}
         />
         <label
-          key={`rating-label-${i}`}
           className='rating__label'
           htmlFor={`star-${i}`}
         >
           Rating {i}
         </label>
-      </>
+      </Fragment>
     );
   }
   return values;
