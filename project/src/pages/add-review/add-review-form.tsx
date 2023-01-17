@@ -2,8 +2,7 @@ import React, { FormEvent, useState } from 'react';
 import Rating from '../../components/rating/rating';
 import { api } from '../../services/api';
 import { getAddCommentLink } from '../../services/api-routes';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 interface AddReviewFormProps {
@@ -29,16 +28,7 @@ export default function AddReviewForm({movieId}: AddReviewFormProps) {
       });
     } catch {
       isCaughtError = true;
-      toast.error('Can\'t send review', {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+      toast.error('Can\'t send review');
     } finally {
       setIsSendingRequest(false);
     }
@@ -86,7 +76,6 @@ export default function AddReviewForm({movieId}: AddReviewFormProps) {
           </div>
         </div>
       </form>
-      <ToastContainer />
     </div>
   );
 }
