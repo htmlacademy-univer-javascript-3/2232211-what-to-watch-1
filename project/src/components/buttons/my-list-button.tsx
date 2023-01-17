@@ -5,6 +5,9 @@ import { Movie } from '../../types/movie';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-helpers';
 import { setFavoriteMovieAction } from '../../store/slices/favorite-movies-slice';
+import { getToken } from '../../services/token';
+import { useNavigate } from 'react-router-dom';
+import { PageLink } from '../../utils/links';
 
 interface MyListButtonProps {
   movie: Movie;
@@ -14,9 +17,16 @@ interface MyListButtonProps {
 export default function MyListButton({movie, updateMovieWithoutLoadingHandler}: MyListButtonProps) {
   const { favoriteMovies, favoriteMoviesLoading } = useAppSelector((state) => state.favoriteMovies);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [myListButtonClick, setMyListButtonClick] = useState(false);
 
   const handleMyListClick = async () => {
+    if (!getToken()) {
+      // in case user is not authorized
+      navigate(PageLink.SignIn);
+      return;
+    }
+
     setMyListButtonClick(true);
     await dispatch(setFavoriteMovieAction(({
       movieId: movie.id,
