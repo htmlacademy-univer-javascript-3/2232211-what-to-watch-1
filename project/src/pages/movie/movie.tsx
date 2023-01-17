@@ -44,7 +44,7 @@ export default function MoviePage() {
     } else {
       navigate(PageLink.NotFound);
     }
-  }, [dispatch, movieId]);
+  }, [dispatch, movieId, navigate]);
 
   const { movie, movieLoading, similarMovies, similarMoviesLoading, reviews, reviewsLoading } = useAppSelector((state) => state.movie);
   const { authorizationStatus } = useAppSelector((state) => state.authorization);
