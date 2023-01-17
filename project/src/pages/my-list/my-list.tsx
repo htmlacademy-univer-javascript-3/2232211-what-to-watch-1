@@ -4,19 +4,31 @@ import UserAvatar from '../../components/user/user-avatar';
 import SignOut from '../../components/sign-out/sign-out';
 import { PageLink } from '../../utils/links';
 import { getFilteredMovieItems } from '../../utils/functions';
-import { useAppSelector } from '../../hooks/store-helpers';
+import { useAppDispatch, useAppSelector } from '../../hooks/store-helpers';
 import Spinner from '../../components/spinner/spinner';
+import { useEffect } from 'react';
+import { getFavoriteMoviesAction } from '../../store/slices/favorite-movies-slice';
 
 export default function MyListPage() {
-  const { movies, moviesLoading } = useAppSelector((state) => state.movies);
+  const { favoriteMovies, favoriteMoviesLoading } = useAppSelector((state) => state.favoriteMovies);
 
-  if (moviesLoading) {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getFavoriteMoviesAction());
+  }, [dispatch]);
+
+  if (favoriteMoviesLoading) {
     return <Spinner>Movies are loading..</Spinner>;
   }
 
-  const favoriteMovies = getFilteredMovieItems({
-    movies,
-    filter: (movie) => movie.isFavorite
+  if (favoriteMovies === undefined) {
+    return <Spinner>Not found</Spinner>;
+  }
+
+  const favoriteMoviesItem = getFilteredMovieItems({
+    movies: favoriteMovies,
+    filter: (_) => true
   });
 
   return (
@@ -24,7 +36,7 @@ export default function MyListPage() {
       <header className='page-header user-page__head'>
         <Logo href={PageLink.Main} />
 
-        <h1 className='page-title user-page__title'>My list <span className='user-page__film-count'>9</span></h1>
+        <h1 className='page-title user-page__title'>My list <span className='user-page__film-count'>{favoriteMovies.length}</span></h1>
         <ul className='user-block'>
           <li className='user-block__item'>
             <UserAvatar imageSource='img/avatar.jpg' />
@@ -39,7 +51,7 @@ export default function MyListPage() {
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
         <div className='catalog__films-list'>
-          {favoriteMovies}
+          {favoriteMoviesItem}
         </div>
       </section>
 

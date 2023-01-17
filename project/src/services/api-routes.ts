@@ -7,6 +7,8 @@ export enum ApiRoutes {
   Login = '/login',
   Logout = '/logout',
   AddComment = '/comments/:movieId',
+  FavoriteMovies = '/favorite',
+  SetFavoriteMovie = '/favorite/:movieId/:status'
 }
 
 export function getCommentsLink(movieId: string): string {
@@ -23,4 +25,8 @@ export function getSimilarMoviesLink(movieId: string): string {
 
 export function getAddCommentLink(movieId: string): string {
   return ApiRoutes.AddComment.replace(':movieId', movieId);
+}
+
+export function getSetFavoriteMovieLink(movieId: string, status: string): string {
+  return ApiRoutes.SetFavoriteMovie.replace(':movieId', movieId).replace(':status', status);
 }

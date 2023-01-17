@@ -10,4 +10,5 @@ export enum Namespace {
   Movie = 'MOVIE',
   Movies = 'MOVIES',
   PromoMovie = 'PROMO_MOVIE',
+  FavoriteMovies = 'FAVORITE_MOVIES',
 }
