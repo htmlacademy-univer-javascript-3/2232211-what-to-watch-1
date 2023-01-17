@@ -3,6 +3,7 @@ import { Movie } from '../../types/movie';
 import { ApiRoutes } from '../../services/api-routes';
 import { api } from '../../services/api';
 import { Namespace } from '../../constants';
+import { toast } from 'react-toastify';
 
 export const getPromoMovieAction = createAsyncThunk(
   'data/getPromoMovie',
@@ -45,6 +46,7 @@ const promoMovieSlice = createSlice({
       state.promoMovieLoading = false;
     });
     builder.addCase(getPromoMovieAction.rejected, (state, action) => {
+      toast('Failed to get promo movie');
       state.promoMovieLoadingError = action.error;
       state.promoMovieLoading = false;
     });
@@ -52,6 +54,7 @@ const promoMovieSlice = createSlice({
       state.promoMovie = action.payload;
     });
     builder.addCase(updatePromoMovieWithoutLoadingAction.rejected, (state, action) => {
+      toast('Failed to update promo movie');
       state.promoMovieLoadingError = action.error;
     });
   }

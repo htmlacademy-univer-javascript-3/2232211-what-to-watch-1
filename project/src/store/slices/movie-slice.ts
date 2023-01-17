@@ -6,6 +6,7 @@ import { ReviewProps } from '../../components/review/review';
 import { Namespace } from '../../constants';
 import { useNavigate } from 'react-router-dom';
 import { PageLink } from '../../utils/links';
+import { toast } from 'react-toastify';
 
 export const getMovieAction = createAsyncThunk(
   'data/getMovie',
@@ -80,6 +81,7 @@ const movieSlice = createSlice({
       state.movieLoading = false;
     });
     builder.addCase(getMovieAction.rejected, (state, action) => {
+      toast(`Failed to get movie with id ${action.meta.arg}`);
       state.movieLoadingError = action.error;
       state.movieLoading = false;
       useNavigate()(PageLink.NotFound);
@@ -93,6 +95,7 @@ const movieSlice = createSlice({
       state.similarMoviesLoading = false;
     });
     builder.addCase(getSimilarMoviesAction.rejected, (state, action) => {
+      toast(`Failed to get similar movies for movie with id ${action.meta.arg}`);
       state.similarMoviesLoadingError = action.error;
       state.similarMoviesLoading = false;
     });
@@ -105,6 +108,7 @@ const movieSlice = createSlice({
       state.reviewsLoading = false;
     });
     builder.addCase(getReviewsAction.rejected, (state, action) => {
+      toast(`Failed to get reviews movies for movie with id ${action.meta.arg}`);
       state.reviewsLoadingError = action.error;
       state.reviewsLoading = false;
     });
@@ -113,6 +117,7 @@ const movieSlice = createSlice({
       state.movie = action.payload;
     });
     builder.addCase(updateMovieWithoutLoadingAction.rejected, (state, action) => {
+      toast(`Failed to update movie with id ${action.meta.arg}`);
       state.movieLoadingError = action.error;
     });
   }

@@ -3,6 +3,7 @@ import { api } from '../../services/api';
 import { Movie } from '../../types/movie';
 import { ApiRoutes, getSetFavoriteMovieLink } from '../../services/api-routes';
 import { Namespace } from '../../constants';
+import { toast } from 'react-toastify';
 
 export const getFavoriteMoviesAction = createAsyncThunk(
   'data/getFavoriteMovies',
@@ -45,6 +46,7 @@ const favoriteMoviesSlice = createSlice({
       state.favoriteMoviesLoading = false;
     });
     builder.addCase(getFavoriteMoviesAction.rejected, (state, action) => {
+      toast('Failed to get favorite movies');
       state.favoriteMoviesLoadingError = action.error;
       state.favoriteMoviesLoading = false;
     });
@@ -62,6 +64,7 @@ const favoriteMoviesSlice = createSlice({
       state.favoriteMoviesLoading = false;
     });
     builder.addCase(setFavoriteMovieAction.rejected, (state, action) => {
+      toast('Failed to set favorite movie');
       state.favoriteMoviesLoadingError = action.error;
       state.favoriteMoviesLoading = false;
     });

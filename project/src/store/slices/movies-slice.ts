@@ -3,6 +3,7 @@ import { Movie } from '../../types/movie';
 import { api } from '../../services/api';
 import { ApiRoutes } from '../../services/api-routes';
 import { Namespace } from '../../constants';
+import { toast } from 'react-toastify';
 
 export const getMoviesAction = createAsyncThunk(
   'data/getMovies',
@@ -48,6 +49,7 @@ const moviesSlice = createSlice({
       state.moviesLoading = false;
     });
     builder.addCase(getMoviesAction.rejected, (state, action) => {
+      toast('Failed to get movies');
       state.moviesLoadingError = action.error;
       state.moviesLoading = false;
     });

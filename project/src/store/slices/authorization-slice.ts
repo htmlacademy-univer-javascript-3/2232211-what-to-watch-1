@@ -5,6 +5,7 @@ import { ApiRoutes } from '../../services/api-routes';
 import { AuthData } from '../../types/auth-data';
 import { dropToken, saveToken } from '../../services/token';
 import { UserData } from '../../types/user-data';
+import { toast } from 'react-toastify';
 
 export const checkAuthAction = createAsyncThunk(
   'user/checkAuthStatus',
@@ -59,6 +60,7 @@ const authorizationSlice = createSlice({
       state.authorizationError = undefined;
     });
     builder.addCase(loginAction.rejected, (state, action) => {
+      toast('Failed to login');
       state.authorizationStatus = AuthorizationStatus.NoAuth;
       state.authorizationError = action.error;
     });
