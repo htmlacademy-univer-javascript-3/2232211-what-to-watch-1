@@ -1,8 +1,7 @@
 import React, { FormEvent, useState } from 'react';
 import Rating from '../../components/rating/rating';
-import { PageLink } from '../../utils/links';
 import { api } from '../../services/api';
-import { getAddCommentLink } from '../../services/api-routes';
+import { getAddCommentLink, getMovieLink } from '../../services/api-routes';
 import { useNavigate } from 'react-router-dom';
 
 interface AddReviewFormProps {
@@ -22,7 +21,7 @@ export default function AddReviewForm({movieId}: AddReviewFormProps) {
         'comment': reviewMessage,
         'rating': checked,
       });
-      navigate(PageLink.Main);
+      navigate(getMovieLink(movieId));
     }
   };
 
