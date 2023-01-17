@@ -24,7 +24,7 @@ function AppRoutes() {
       {path: PageLink.AddReview, element: <PrivateRoute><AddReviewPage /></PrivateRoute>},
       {path: PageLink.Player, element: <PlayerPage />},
       {path: PageLink.Film, element: <MoviePage />},
-      {path: PageLink.SignOut, element: <SignOutPage />},
+      {path: PageLink.SignOut, element: <PrivateRoute><SignOutPage /></PrivateRoute>},
       {path: '*', element: <NotFoundPage/>}
     ]
   );
