@@ -1,17 +1,19 @@
-import React, { ReactNode } from 'react';
+import React, {Fragment, ReactNode} from 'react';
 
 interface RatingProps {
   from: number;
   to: number;
   checked: number;
   setChecked: React.Dispatch<React.SetStateAction<number>>;
+  disabled: boolean;
 }
 
 const getRatingItems = (
   from: number,
   to: number,
   checked: number,
-  setChecked: React.Dispatch<React.SetStateAction<number>>
+  setChecked: React.Dispatch<React.SetStateAction<number>>,
+  disabled: boolean,
 ): ReactNode[] => {
   const values = [];
   for (let i = to; i >= from; i--) {
@@ -25,6 +27,7 @@ const getRatingItems = (
           value={i}
           checked={i === checked}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setChecked(parseInt(e.target.value, 10))}
+          disabled={disabled}
         />
         <label
           className='rating__label'
@@ -38,7 +41,7 @@ const getRatingItems = (
   return values;
 };
 
-export default function Rating({from, to, checked, setChecked}: RatingProps) {
+export default function Rating({from, to, checked, setChecked, disabled}: RatingProps) {
   if (to < from) {
     throw new Error(`Invalid borders! ${from} should be less than ${to}.`);
   }
@@ -46,7 +49,7 @@ export default function Rating({from, to, checked, setChecked}: RatingProps) {
   return (
     <div className='rating'>
       <div className='rating__stars'>
-        {getRatingItems(from, to, checked, setChecked)}
+        {getRatingItems(from, to, checked, setChecked, disabled)}
       </div>
     </div>
   );
