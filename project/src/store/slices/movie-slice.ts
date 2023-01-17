@@ -13,6 +13,14 @@ export const getMovieAction = createAsyncThunk(
   },
 );
 
+export const updateMovieWithoutLoadingAction = createAsyncThunk(
+  'data/updateMovieWithoutLoading',
+  async (movieId: string) => {
+    const {data} = await api.get<Movie>(getMovieLink(movieId));
+    return data;
+  },
+);
+
 export const getSimilarMoviesAction = createAsyncThunk(
   'data/getSimilarMovies',
   async (movieId: string) => {
@@ -96,6 +104,13 @@ const movieSlice = createSlice({
     builder.addCase(getReviewsAction.rejected, (state, action) => {
       state.reviewsLoadingError = action.error;
       state.reviewsLoading = false;
+    });
+
+    builder.addCase(updateMovieWithoutLoadingAction.fulfilled, (state, action) => {
+      state.movie = action.payload;
+    });
+    builder.addCase(updateMovieWithoutLoadingAction.rejected, (state, action) => {
+      state.movieLoadingError = action.error;
     });
   }
 });

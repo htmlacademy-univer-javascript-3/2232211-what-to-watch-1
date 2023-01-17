@@ -2,7 +2,6 @@ import Logo from '../../components/logo/logo';
 import Header from '../../components/header/header';
 import MovieButton from '../../components/buttons/movie-button';
 import PlayIcon from '../../components/icons/play-icon';
-import AddIcon from '../../components/icons/add-icon';
 import Copyright from '../../components/copyright/copyright';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import type { Movie } from '../../types/movie';
@@ -15,8 +14,14 @@ import { Review, ReviewProps } from '../../components/review/review';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-helpers';
 import Spinner from '../../components/spinner/spinner';
 import { AuthorizationStatus } from '../../constants';
-import { getMovieAction, getReviewsAction, getSimilarMoviesAction } from '../../store/slices/movie-slice';
+import {
+  getMovieAction,
+  getReviewsAction,
+  getSimilarMoviesAction,
+  updateMovieWithoutLoadingAction
+} from '../../store/slices/movie-slice';
 import { getFilteredMovieItems } from '../../utils/functions';
+import MyListButton from '../../components/buttons/my-list-button';
 
 enum TabId {
   Overview = 'Overview',
@@ -56,6 +61,10 @@ export default function MoviePage() {
     maxCount: 4
   });
 
+  const updateMovieWithoutLoadingHandler = async () => {
+    await dispatch(updateMovieWithoutLoadingAction(movie.id.toString()));
+  };
+
   return (
     <>
       <section className='film-card film-card--full'>
@@ -81,9 +90,10 @@ export default function MoviePage() {
                 <MovieButton icon={<PlayIcon/>} onClick={() => navigate(getPlayerLink(movie.id))}>
                   Play
                 </MovieButton>
-                <MovieButton icon={<AddIcon/>} moviesListCount={9} onClick={() => navigate(PageLink.MyList)}>
-                  My list
-                </MovieButton>
+                <MyListButton
+                  movie={movie}
+                  updateMovieWithoutLoadingHandler={updateMovieWithoutLoadingHandler}
+                />
                 {authorizationStatus === AuthorizationStatus.Auth && (
                   <Link to={getAddReviewLink(movie.id)} className='btn film-card__button'>
                     Add review

@@ -12,6 +12,14 @@ export const getPromoMovieAction = createAsyncThunk(
   },
 );
 
+export const updatePromoMovieWithoutLoadingAction = createAsyncThunk(
+  'data/updatePromoMovieWithoutLoading',
+  async () => {
+    const {data} = await api.get<Movie>(ApiRoutes.Promo);
+    return data;
+  },
+);
+
 type promoMovieInitialState = {
   promoMovie?: Movie;
   promoMovieLoading: boolean;
@@ -39,6 +47,12 @@ const promoMovieSlice = createSlice({
     builder.addCase(getPromoMovieAction.rejected, (state, action) => {
       state.promoMovieLoadingError = action.error;
       state.promoMovieLoading = false;
+    });
+    builder.addCase(updatePromoMovieWithoutLoadingAction.fulfilled, (state, action) => {
+      state.promoMovie = action.payload;
+    });
+    builder.addCase(updatePromoMovieWithoutLoadingAction.rejected, (state, action) => {
+      state.promoMovieLoadingError = action.error;
     });
   }
 });
