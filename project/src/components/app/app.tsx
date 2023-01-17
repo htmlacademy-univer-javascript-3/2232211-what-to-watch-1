@@ -12,12 +12,13 @@ import SignOutPage from '../../pages/sign-out/sign-out';
 import { useAppSelector } from '../../hooks/store-helpers';
 import { AuthorizationStatus } from '../../constants';
 import Spinner from '../spinner/spinner';
+import UnauthorizedRoute from '../unauthorized-route/unauthorized-route';
 
 function AppRoutes() {
   return useRoutes(
     [
       {path: PageLink.Main, element: <Main />},
-      {path: PageLink.SignIn, element: <SignInPage />},
+      {path: PageLink.SignIn, element: <UnauthorizedRoute><SignInPage /></UnauthorizedRoute>},
       {path: PageLink.MyList, element: <PrivateRoute><MyListPage /></PrivateRoute>},
       {path: PageLink.Film, element: <MoviePage />},
       {path: PageLink.AddReview, element: <PrivateRoute><AddReviewPage /></PrivateRoute>},
