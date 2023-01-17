@@ -21,7 +21,6 @@ export default function Main() {
       <div className='page-content'>
         <section className='catalog'>
           <h2 className='catalog__title visually-hidden'>Catalog</h2>
-
           {moviesLoading
             ? <Spinner>Movies are loading..</Spinner>
             : <MoviesList movies={movies}/>}
