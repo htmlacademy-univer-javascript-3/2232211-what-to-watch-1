@@ -26,7 +26,7 @@ export default function AddReviewPage() {
   }
 
   return (
-    <section className='film-card film-card--full'>
+    <section className='film-card film-card--full' style={{background: movie.backgroundColor}}>
       <div className='film-card__header'>
         <div className='film-card__bg'>
           <img src={movie.backgroundImage} alt={movie.name}/>

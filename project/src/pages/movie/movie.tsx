@@ -63,7 +63,7 @@ export default function MoviePage() {
 
   return (
     <>
-      <section className='film-card film-card--full'>
+      <section className='film-card film-card--full' style={{background: movie.backgroundColor}}>
         <div className='film-card__hero'>
 
           <h1 className='visually-hidden'>WTW</h1>
