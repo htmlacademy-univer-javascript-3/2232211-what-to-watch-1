@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, SerializedError } from '@reduxjs/toolkit';
 import { AuthorizationStatus, Namespace } from '../../constants';
 import { api } from '../../services/api';
 import { ApiRoutes } from '../../services/api-routes';
@@ -28,12 +28,24 @@ export const logoutAction = createAsyncThunk(
   }
 );
 
+type authorizationInitialState = {
+  authorizationStatus: AuthorizationStatus;
+  authorizationError?: SerializedError;
+}
+
+const initialState = {
+  authorizationStatus: AuthorizationStatus.Unknown,
+  authorizationError: undefined,
+} as authorizationInitialState;
+
 const authorizationSlice = createSlice({
   name: Namespace.Authorization,
-  initialState: {
-    authorizationStatus: AuthorizationStatus.Unknown
+  initialState,
+  reducers: {
+    clearAuthorizationError(state) {
+      state.authorizationError = undefined;
+    }
   },
-  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(checkAuthAction.fulfilled, (state) => {
       state.authorizationStatus = AuthorizationStatus.Auth;
@@ -44,9 +56,11 @@ const authorizationSlice = createSlice({
     builder.addCase(loginAction.fulfilled, (state, action) => {
       saveToken(action.payload.token);
       state.authorizationStatus = AuthorizationStatus.Auth;
+      state.authorizationError = undefined;
     });
-    builder.addCase(loginAction.rejected, (state) => {
+    builder.addCase(loginAction.rejected, (state, action) => {
       state.authorizationStatus = AuthorizationStatus.NoAuth;
+      state.authorizationError = action.error;
     });
     builder.addCase(logoutAction.fulfilled, (state, _) => {
       dropToken();
@@ -55,4 +69,5 @@ const authorizationSlice = createSlice({
   }
 });
 
+export const { clearAuthorizationError } = authorizationSlice.actions;
 export default authorizationSlice.reducer;
