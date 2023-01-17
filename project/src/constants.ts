@@ -1,14 +1,14 @@
 export enum AuthorizationStatus {
-  Auth = 'AUTH',
-  NoAuth = 'NO_AUTH',
-  Unknown = 'UNKNOWN',
+  Auth = 'Auth',
+  NoAuth = 'NoAuth',
+  Unknown = 'Unknown',
 }
 
 export enum Namespace {
-  ActiveTab = 'ACTIVE_TAB',
-  Authorization = 'AUTHORIZATION',
-  Movie = 'MOVIE',
-  Movies = 'MOVIES',
-  PromoMovie = 'PROMO_MOVIE',
-  FavoriteMovies = 'FAVORITE_MOVIES',
+  ActiveTab = 'ActiveTab',
+  Authorization = 'Authorization',
+  Movie = 'Movie',
+  Movies = 'Movies',
+  PromoMovie = 'PromoMovie',
+  FavoriteMovies = 'FavoriteMovies',
 }
