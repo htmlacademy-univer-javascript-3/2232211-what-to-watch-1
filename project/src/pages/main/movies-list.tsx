@@ -4,7 +4,7 @@ import { Movie } from '../../types/movie';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import { getFilteredMovieItems } from '../../utils/functions';
 import { useEffect } from 'react';
-import { AllGenresTab } from '../../store/slices/active-tab-slice';
+import { ALL_GENRES_TAB } from '../../store/slices/active-tab-slice';
 import { resetMoviesToViewCount } from '../../store/slices/movies-slice';
 
 interface MoviesListProps {
@@ -17,7 +17,7 @@ export default function MoviesList({movies}: MoviesListProps) {
 
   const filteredByGenreMovies = getFilteredMovieItems({
     movies,
-    filter: (movie) => activeTab === AllGenresTab || movie.genre === activeTab,
+    filter: (movie) => activeTab === ALL_GENRES_TAB || movie.genre === activeTab,
     maxCount: moviesToViewCount
   });
 

@@ -6,10 +6,10 @@ export interface TabsContextType {
   activeTabClassName: string;
 }
 
-export const TabsContextDefaultValue: TabsContextType = {
+export const TABS_CONTEXT_DEFAULT_VALUE: TabsContextType = {
   activeTab: '',
   switchTab: () => {throw new Error();}, // потому что пустые функции запретили в eslint'e
   activeTabClassName: '',
 };
 
-export const TabsContext = React.createContext<TabsContextType>(TabsContextDefaultValue);
+export const TABS_CONTEXT = React.createContext<TabsContextType>(TABS_CONTEXT_DEFAULT_VALUE);

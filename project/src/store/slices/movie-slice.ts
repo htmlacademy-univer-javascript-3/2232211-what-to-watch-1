@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, SerializedError } from '@reduxjs/toolkit';
-import { api } from '../../services/api';
+import { API } from '../../services/api';
 import { Movie } from '../../types/movie';
 import { getCommentsLink, getMovieLink, getSimilarMoviesLink } from '../../services/api-routes';
 import { ReviewProps } from '../../components/review/review';
@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 export const getMovieAction = createAsyncThunk(
   'data/getMovie',
   async (movieId: string) => {
-    const {data} = await api.get<Movie>(getMovieLink(movieId));
+    const {data} = await API.get<Movie>(getMovieLink(movieId));
     return data;
   },
 );
@@ -19,7 +19,7 @@ export const getMovieAction = createAsyncThunk(
 export const updateMovieWithoutLoadingAction = createAsyncThunk(
   'data/updateMovieWithoutLoading',
   async (movieId: string) => {
-    const {data} = await api.get<Movie>(getMovieLink(movieId));
+    const {data} = await API.get<Movie>(getMovieLink(movieId));
     return data;
   },
 );
@@ -27,7 +27,7 @@ export const updateMovieWithoutLoadingAction = createAsyncThunk(
 export const getSimilarMoviesAction = createAsyncThunk(
   'data/getSimilarMovies',
   async (movieId: string) => {
-    const {data} = await api.get<Movie[]>(getSimilarMoviesLink(movieId));
+    const {data} = await API.get<Movie[]>(getSimilarMoviesLink(movieId));
     return data;
   },
 );
@@ -35,7 +35,7 @@ export const getSimilarMoviesAction = createAsyncThunk(
 export const getReviewsAction = createAsyncThunk(
   'data/reviews',
   async (movieId: string) => {
-    const {data} = await api.get<ReviewProps[]>(getCommentsLink(movieId));
+    const {data} = await API.get<ReviewProps[]>(getCommentsLink(movieId));
     return data;
   },
 );

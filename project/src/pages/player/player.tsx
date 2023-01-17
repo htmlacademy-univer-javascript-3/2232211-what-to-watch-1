@@ -48,7 +48,7 @@ export default function PlayerPage(): JSX.Element {
     return <Navigate to={PageLink.NotFound}/>;
   }
 
-  const playerClickHandler = async () => {
+  const handlePlayerClick = async () => {
     if (isPlaying) {
       player.current.pause();
     } else {
@@ -67,7 +67,7 @@ export default function PlayerPage(): JSX.Element {
         poster={movie.backgroundImage}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
-        onClick={playerClickHandler}
+        onClick={handlePlayerClick}
       />
 
       <ExitPlayerButton movieId={movieId}/>

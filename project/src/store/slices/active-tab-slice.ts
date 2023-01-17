@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Namespace } from '../../constants';
 
-export const AllGenresTab = 'All genres';
+export const ALL_GENRES_TAB = 'All genres';
 
 const activeTabSlice = createSlice({
   name: Namespace.ActiveTab,
   initialState: {
-    activeTab: AllGenresTab,
+    activeTab: ALL_GENRES_TAB,
   },
   reducers: {
     setActiveTab: (state, action) => {

@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from 'react';
 import Rating from '../../components/rating/rating';
-import { api } from '../../services/api';
+import { API } from '../../services/api';
 import { getAddCommentLink } from '../../services/api-routes';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +22,7 @@ export default function AddReviewForm({movieId}: AddReviewFormProps) {
     setIsSendingRequest(true);
 
     try {
-      await api.post(getAddCommentLink(movieId), {
+      await API.post(getAddCommentLink(movieId), {
         'comment': reviewMessage,
         'rating': checked,
       });

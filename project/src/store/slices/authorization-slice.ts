@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, SerializedError } from '@reduxjs/toolkit';
 import { AuthorizationStatus, Namespace } from '../../constants';
-import { api } from '../../services/api';
+import { API } from '../../services/api';
 import { ApiRoutes } from '../../services/api-routes';
 import { AuthData } from '../../types/auth-data';
 import { dropToken, saveToken } from '../../services/token';
@@ -10,14 +10,14 @@ import { toast } from 'react-toastify';
 export const checkAuthAction = createAsyncThunk(
   'user/checkAuthStatus',
   async () => {
-    await api.get(ApiRoutes.Login);
+    await API.get(ApiRoutes.Login);
   }
 );
 
 export const loginAction = createAsyncThunk(
   'user/login',
   async ({email, password}: AuthData) => {
-    const {data} = await api.post<UserData>(ApiRoutes.Login, {email, password});
+    const {data} = await API.post<UserData>(ApiRoutes.Login, {email, password});
     return data;
   }
 );
@@ -25,7 +25,7 @@ export const loginAction = createAsyncThunk(
 export const logoutAction = createAsyncThunk(
   'user/logout',
   async () => {
-    await api.delete(ApiRoutes.Logout);
+    await API.delete(ApiRoutes.Logout);
   }
 );
 

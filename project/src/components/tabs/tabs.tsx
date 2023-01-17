@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { TabsContext } from './tabs-context';
+import { TABS_CONTEXT } from './tabs-context';
 
 type TabsProps = PropsWithChildren<{
   /**
@@ -19,7 +19,7 @@ export default function Tabs({children, value, onValueChange, className, activeT
   };
 
   return (
-    <TabsContext.Provider
+    <TABS_CONTEXT.Provider
       value={{
         activeTab: value,
         switchTab,
@@ -29,6 +29,6 @@ export default function Tabs({children, value, onValueChange, className, activeT
       <ul className={className}>
         {children}
       </ul>
-    </TabsContext.Provider>
+    </TABS_CONTEXT.Provider>
   );
 }

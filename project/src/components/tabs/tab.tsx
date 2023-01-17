@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { TabsContext } from './tabs-context';
+import { TABS_CONTEXT } from './tabs-context';
 
 type TabProps = PropsWithChildren<{
   /**
@@ -11,7 +11,7 @@ type TabProps = PropsWithChildren<{
 
 export default function Tab({id, className, children}: TabProps) {
   return (
-    <TabsContext.Consumer>
+    <TABS_CONTEXT.Consumer>
       {(context) => (
         <li
           className={`${className} ${context.activeTab === id && context.activeTabClassName}`}
@@ -19,6 +19,6 @@ export default function Tab({id, className, children}: TabProps) {
         >
           {children}
         </li>)}
-    </TabsContext.Consumer>
+    </TABS_CONTEXT.Consumer>
   );
 }

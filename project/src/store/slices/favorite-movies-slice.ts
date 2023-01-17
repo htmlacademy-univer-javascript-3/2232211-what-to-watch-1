@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, SerializedError } from '@reduxjs/toolkit';
-import { api } from '../../services/api';
+import { API } from '../../services/api';
 import { Movie } from '../../types/movie';
 import { ApiRoutes, getSetFavoriteMovieLink } from '../../services/api-routes';
 import { Namespace } from '../../constants';
@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 export const getFavoriteMoviesAction = createAsyncThunk(
   'data/getFavoriteMovies',
   async () => {
-    const {data} = await api.get<Movie[]>(ApiRoutes.FavoriteMovies);
+    const {data} = await API.get<Movie[]>(ApiRoutes.FavoriteMovies);
     return data;
   },
 );
@@ -16,7 +16,7 @@ export const getFavoriteMoviesAction = createAsyncThunk(
 export const setFavoriteMovieAction = createAsyncThunk(
   'data/setFavoriteMovie',
   async ({ movieId, status }: { movieId: number, status: number }) => {
-    const {data} = await api.post<Movie>(getSetFavoriteMovieLink(movieId.toString(), status.toString()));
+    const {data} = await API.post<Movie>(getSetFavoriteMovieLink(movieId.toString(), status.toString()));
     return data;
   },
 );
