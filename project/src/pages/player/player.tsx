@@ -25,7 +25,7 @@ export default function PlayerPage(): JSX.Element {
     } else {
       navigate(PageLink.NotFound);
     }
-  }, [movieId, dispatch]);
+  }, [movieId, dispatch, navigate]);
 
   if (player.current) {
     player.current.ontimeupdate = () => {

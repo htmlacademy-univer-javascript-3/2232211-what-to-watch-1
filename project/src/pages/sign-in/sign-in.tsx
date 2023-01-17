@@ -23,7 +23,7 @@ export default function SignInPage({showInvalidEmailError, showCantRecognizeMess
 
   useEffect(() => {
     dispatch(clearAuthorizationError());
-  }, []);
+  }, [dispatch]);
 
   const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
