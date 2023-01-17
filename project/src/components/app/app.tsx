@@ -20,7 +20,7 @@ function AppRoutes() {
       {path: PageLink.SignIn, element: <SignInPage />},
       {path: PageLink.MyList, element: <PrivateRoute><MyListPage /></PrivateRoute>},
       {path: PageLink.Film, element: <MoviePage />},
-      {path: PageLink.AddReview, element: <AddReviewPage />},
+      {path: PageLink.AddReview, element: <PrivateRoute><AddReviewPage /></PrivateRoute>},
       {path: PageLink.Player, element: <PlayerPage />},
       {path: PageLink.Film, element: <MoviePage />},
       {path: PageLink.SignOut, element: <SignOutPage />},

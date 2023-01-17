@@ -13,7 +13,6 @@ import { getAddReviewLink, getPlayerLink, PageLink } from '../../utils/links';
 import { Review, ReviewProps } from '../../components/review/review';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-helpers';
 import Spinner from '../../components/spinner/spinner';
-import { AuthorizationStatus } from '../../constants';
 import {
   getMovieAction,
   getReviewsAction,
@@ -47,7 +46,6 @@ export default function MoviePage() {
   }, [dispatch, movieId]);
 
   const { movie, movieLoading, similarMovies, similarMoviesLoading, reviews, reviewsLoading } = useAppSelector((state) => state.movie);
-  const { authorizationStatus } = useAppSelector((state) => state.authorization);
 
   if (movieLoading || similarMoviesLoading || !movie) {
     return <Spinner>Loading..</Spinner>;
@@ -92,11 +90,9 @@ export default function MoviePage() {
                   movie={movie}
                   updateMovieWithoutLoadingHandler={updateMovieWithoutLoadingHandler}
                 />
-                {authorizationStatus === AuthorizationStatus.Auth && (
-                  <Link to={getAddReviewLink(movie.id)} className='btn film-card__button'>
-                    Add review
-                  </Link>
-                )}
+                <Link to={getAddReviewLink(movie.id)} className='btn film-card__button'>
+                  Add review
+                </Link>
               </div>
             </div>
           </div>
