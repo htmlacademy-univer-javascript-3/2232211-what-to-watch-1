@@ -2,21 +2,26 @@ import Logo from '../../components/logo/logo';
 import Header from '../../components/header/header';
 import MovieButton from '../../components/buttons/movie-button';
 import PlayIcon from '../../components/icons/play-icon';
-import AddIcon from '../../components/icons/add-icon';
 import Copyright from '../../components/copyright/copyright';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import type { Movie } from '../../types/movie';
 import { useEffect, useState} from 'react';
 import Tabs from '../../components/tabs/tabs';
 import Tab from '../../components/tabs/tab';
 import { toHourAndMinute } from '../../utils/formatted-time';
-import { getAddReviewLink, PageLink } from '../../utils/links';
+import { getAddReviewLink, getPlayerLink, PageLink } from '../../utils/links';
 import { Review, ReviewProps } from '../../components/review/review';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-helpers';
 import Spinner from '../../components/spinner/spinner';
-import { AuthorizationStatus } from '../../constants';
-import { getMovieAction, getReviewsAction, getSimilarMoviesAction } from '../../store/slices/movie-slice';
+import {
+  getMovieAction,
+  getReviewsAction,
+  getSimilarMoviesAction,
+  updateMovieWithoutLoadingAction
+} from '../../store/slices/movie-slice';
 import { getFilteredMovieItems } from '../../utils/functions';
+import MyListButton from '../../components/buttons/my-list-button';
+import { AuthorizationStatus } from '../../constants';
 
 enum TabId {
   Overview = 'Overview',
@@ -27,37 +32,40 @@ enum TabId {
 export default function MoviePage() {
   const [tabId, setTabId] = useState(TabId.Overview);
   const movieId = useParams().id;
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (movieId) {
-      dispatch(getMovieAction(movieId));
+      dispatch(getMovieAction(movieId)).catch(() => navigate(PageLink.NotFound));
       dispatch(getSimilarMoviesAction(movieId));
       dispatch(getReviewsAction(movieId));
+    } else {
+      navigate(PageLink.NotFound);
     }
-  }, [dispatch, movieId]);
+  }, [dispatch, movieId, navigate]);
 
   const { movie, movieLoading, similarMovies, similarMoviesLoading, reviews, reviewsLoading } = useAppSelector((state) => state.movie);
   const { authorizationStatus } = useAppSelector((state) => state.authorization);
 
-  if (movieLoading || similarMoviesLoading) {
+  if (movieLoading || similarMoviesLoading || !movie) {
     return <Spinner>Loading..</Spinner>;
-  }
-
-  if (!movie) {
-    return <Navigate to={PageLink.NotFound} />;
   }
 
   const sameGenreMovies = getFilteredMovieItems({
     movies: similarMovies,
-    filter: (m) => m.genre === movie.genre && m.id !== movie.id,
+    onFilter: (m) => m.genre === movie.genre && m.id !== movie.id,
     maxCount: 4
   });
 
+  const updateMovieWithoutLoadingHandler = async () => {
+    await dispatch(updateMovieWithoutLoadingAction(movie.id.toString()));
+  };
+
   return (
     <>
-      <section className='film-card film-card--full'>
+      <section className='film-card film-card--full' style={{background: movie.backgroundColor}}>
         <div className='film-card__hero'>
 
           <h1 className='visually-hidden'>WTW</h1>
@@ -77,12 +85,13 @@ export default function MoviePage() {
               </p>
 
               <div className='film-card__buttons'>
-                <MovieButton icon={<PlayIcon/>}>
+                <MovieButton icon={<PlayIcon/>} onClick={() => navigate(getPlayerLink(movie.id))}>
                   Play
                 </MovieButton>
-                <MovieButton icon={<AddIcon/>} moviesListCount={9}>
-                  My list
-                </MovieButton>
+                <MyListButton
+                  movie={movie}
+                  onUpdateMovieWithoutLoading={updateMovieWithoutLoadingHandler}
+                />
                 {authorizationStatus === AuthorizationStatus.Auth && (
                   <Link to={getAddReviewLink(movie.id)} className='btn film-card__button'>
                     Add review
@@ -157,7 +166,9 @@ function OverviewInfo(movie: Movie) {
   return (
     <>
       <div className='film-rating'>
-        <div className='film-rating__score'>{movie.rating}</div>
+        <div className='film-rating__score'>
+          {Number.isInteger(movie.rating) ? movie.rating : movie.rating.toFixed(1)}
+        </div>
         <p className='film-rating__meta'>
           <span className='film-rating__level'>{getRatingLevel(movie.rating)}</span>
           <span className='film-rating__count'>{movie.scoresCount} ratings</span>

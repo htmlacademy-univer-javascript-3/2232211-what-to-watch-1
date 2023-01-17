@@ -16,7 +16,7 @@ export default function Main() {
         <Header userAvatarImageSource='img/avatar.jpg' />
         {promoMovieLoading || !promoMovie
           ? <Spinner>Promo movie is loading..</Spinner>
-          : <PromoMovieInfo promoMovie={promoMovie} movies={movies} />}
+          : <PromoMovieInfo promoMovie={promoMovie} />}
       </section>
       <div className='page-content'>
         <section className='catalog'>

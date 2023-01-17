@@ -1,13 +1,14 @@
 import { createAsyncThunk, createSlice, SerializedError } from '@reduxjs/toolkit';
 import { Movie } from '../../types/movie';
-import { api } from '../../services/api';
+import { API } from '../../services/api';
 import { ApiRoutes } from '../../services/api-routes';
 import { Namespace } from '../../constants';
+import { toast } from 'react-toastify';
 
 export const getMoviesAction = createAsyncThunk(
   'data/getMovies',
   async () => {
-    const {data} = await api.get<Movie[]>(ApiRoutes.Movies);
+    const {data} = await API.get<Movie[]>(ApiRoutes.Movies);
     return data;
   },
 );
@@ -48,6 +49,7 @@ const moviesSlice = createSlice({
       state.moviesLoading = false;
     });
     builder.addCase(getMoviesAction.rejected, (state, action) => {
+      toast.error('Failed to get movies');
       state.moviesLoadingError = action.error;
       state.moviesLoading = false;
     });

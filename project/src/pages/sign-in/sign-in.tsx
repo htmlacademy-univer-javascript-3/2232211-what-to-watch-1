@@ -1,11 +1,12 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import { PageLink } from '../../utils/links';
-import { FormEvent, useState } from 'react';
-import { useAppDispatch } from '../../hooks/store-helpers';
+import { FormEvent, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/store-helpers';
 import { useNavigate } from 'react-router-dom';
-import { AuthData } from '../../types/auth-data';
 import { loginAction } from '../../store/slices/authorization-slice';
+import { clearAuthorizationError } from '../../store/slices/authorization-slice';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 interface SignInPageProps {
   showInvalidEmailError?: boolean;
@@ -15,23 +16,31 @@ interface SignInPageProps {
 export default function SignInPage({showInvalidEmailError, showCantRecognizeMessage}: SignInPageProps) {
   const [emailField, setEmailField] = useState<string>('');
   const [passwordField, setPasswordField] = useState<string>('');
+  const { authorizationError } = useAppSelector((state) => state.authorization);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = (authData: AuthData) => {
-    dispatch(loginAction(authData));
-  };
+  useEffect(() => {
+    dispatch(clearAuthorizationError());
+  }, [dispatch]);
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (emailField && passwordField) {
-      onSubmit({
-        email: emailField,
-        password: passwordField,
-      });
-      navigate(PageLink.Main);
+      let failedLogin = false;
+      try {
+        await dispatch(loginAction({
+          email: emailField,
+          password: passwordField,
+        })).then(unwrapResult);
+      } catch {
+        failedLogin = true;
+      }
+      if (!failedLogin) {
+        navigate(-1);
+      }
     }
   };
 
@@ -56,6 +65,11 @@ export default function SignInPage({showInvalidEmailError, showCantRecognizeMess
                 and password combination. Please try again.
               </p>
             </div>}
+          {authorizationError !== undefined && (
+            <div className='sign-in__message'>
+              {authorizationError.message}
+            </div>
+          )}
           <div className='sign-in__fields'>
             <div className={`sign-in__field ${showInvalidEmailError && 'sign-in__field--error'}`}>
               <input
@@ -93,7 +107,9 @@ export default function SignInPage({showInvalidEmailError, showCantRecognizeMess
             </div>
           </div>
           <div className='sign-in__submit'>
-            <button className='sign-in__btn' type='submit'>Sign in</button>
+            <button className='sign-in__btn' type='submit' disabled={!emailField || !passwordField}>
+              Sign in
+            </button>
           </div>
         </form>
       </div>

@@ -1,68 +1,85 @@
-import PlayIcon from '../../components/icons/play-icon';
-import FullScreenIcon from '../../components/icons/full-screen';
-import PauseIcon from '../../components/icons/pause-icon';
-import { useState } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
-import { PageLink } from '../../utils/links';
-import { useAppSelector } from '../../hooks/store-helpers';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/store-helpers';
 import Spinner from '../../components/spinner/spinner';
+import { getMovieAction } from '../../store/slices/movie-slice';
+import { PageLink } from '../../utils/links';
+import ExitPlayerButton from '../../components/video-player/exit-player-button';
+import PlayerControls from '../../components/video-player/player-controls';
 
-export default function PlayerPage() {
+export default function PlayerPage(): JSX.Element {
   const movieId = useParams().id;
-  const [isPaused, setIsPaused] = useState(false);
+  const {movie, movieLoading, movieLoadingError} = useAppSelector((state) => state.movie);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const player = useRef() as MutableRefObject<HTMLVideoElement>;
 
-  const { movies, moviesLoading } = useAppSelector((state) => state.movies);
+  const [videoTotalTime, setVideoTotalTime] = useState(0);
+  const [videoCurrentTime, setVideoCurrentTime] = useState(0);
+  const [videoProgress, setVideoProgress] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  if (moviesLoading) {
-    return <Spinner>Movies are loading..</Spinner>;
+  useEffect(() => {
+    if (movieId) {
+      dispatch(getMovieAction(movieId)).catch(() => navigate(PageLink.NotFound));
+    } else {
+      navigate(PageLink.NotFound);
+    }
+  }, [movieId, dispatch, navigate]);
+
+  if (player.current) {
+    player.current.ontimeupdate = () => {
+      setVideoCurrentTime(player.current?.currentTime);
+      setVideoProgress((player.current?.currentTime / videoTotalTime) * 100);
+    };
   }
 
-  const movie = movies.find((m) => m.id.toString() === movieId);
+  useEffect(() => {
+    if (player.current) {
+      setVideoTotalTime(player.current.duration);
+    }
+  }, [isPlaying]);
 
-  if (!movie) {
-    return <Navigate to={PageLink.NotFound} />;
+  if (movieLoading || !movie) {
+    return <Spinner/>;
   }
+
+  if (!movieId || movieLoadingError !== undefined) {
+    return <Navigate to={PageLink.NotFound}/>;
+  }
+
+  const handlePlayerClick = async () => {
+    if (isPlaying) {
+      player.current.pause();
+    } else {
+      await player.current.play();
+    }
+  };
 
   return (
     <div className='player'>
-      <video src={movie.videoLink} className='player__video' poster={movie.previewImage}></video>
+      <video
+        autoPlay
+        id='video'
+        ref={player}
+        src={movie.videoLink}
+        className='player__video'
+        poster={movie.backgroundImage}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onClick={handlePlayerClick}
+      />
 
-      <button type='button' className='player__exit'>
-        Exit
-      </button>
-
-      <div className='player__controls'>
-        <div className='player__controls-row'>
-          <div className='player__time'>
-            <progress className='player__progress' value='30' max='100'></progress>
-            <div className='player__toggler' style={{left: '30%'}}>Toggler</div>
-          </div>
-          <div className='player__time-value'>1:30:29</div>
-        </div>
-
-        <div className='player__controls-row'>
-          {isPaused
-            ? (
-              <button type='button' className='player__play' onClick={() => setIsPaused(false)}>
-                <PauseIcon />
-                <span>Play</span>
-              </button>
-            )
-            : (
-              <button type='button' className='player__play' onClick={() => setIsPaused(true)}>
-                <PlayIcon />
-                <span>Pause</span>
-              </button>
-            )}
-
-          <div className='player__name'>Transpotting</div>
-
-          <button type='button' className='player__full-screen'>
-            <FullScreenIcon />
-            <span>Full screen</span>
-          </button>
-        </div>
-      </div>
+      <ExitPlayerButton movieId={movieId}/>
+      <PlayerControls
+        player={player}
+        isPlaying={isPlaying}
+        videoCurrentTime={videoCurrentTime}
+        videoProgress={videoProgress}
+        videoTotalTime={videoTotalTime}
+      />
     </div>
   );
 }
+
+

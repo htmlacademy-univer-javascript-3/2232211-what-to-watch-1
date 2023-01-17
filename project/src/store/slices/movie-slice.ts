@@ -1,14 +1,25 @@
 import { createAsyncThunk, createSlice, SerializedError } from '@reduxjs/toolkit';
-import { api } from '../../services/api';
+import { API } from '../../services/api';
 import { Movie } from '../../types/movie';
 import { getCommentsLink, getMovieLink, getSimilarMoviesLink } from '../../services/api-routes';
 import { ReviewProps } from '../../components/review/review';
 import { Namespace } from '../../constants';
+import { useNavigate } from 'react-router-dom';
+import { PageLink } from '../../utils/links';
+import { toast } from 'react-toastify';
 
 export const getMovieAction = createAsyncThunk(
   'data/getMovie',
   async (movieId: string) => {
-    const {data} = await api.get<Movie>(getMovieLink(movieId));
+    const {data} = await API.get<Movie>(getMovieLink(movieId));
+    return data;
+  },
+);
+
+export const updateMovieWithoutLoadingAction = createAsyncThunk(
+  'data/updateMovieWithoutLoading',
+  async (movieId: string) => {
+    const {data} = await API.get<Movie>(getMovieLink(movieId));
     return data;
   },
 );
@@ -16,7 +27,7 @@ export const getMovieAction = createAsyncThunk(
 export const getSimilarMoviesAction = createAsyncThunk(
   'data/getSimilarMovies',
   async (movieId: string) => {
-    const {data} = await api.get<Movie[]>(getSimilarMoviesLink(movieId));
+    const {data} = await API.get<Movie[]>(getSimilarMoviesLink(movieId));
     return data;
   },
 );
@@ -24,7 +35,7 @@ export const getSimilarMoviesAction = createAsyncThunk(
 export const getReviewsAction = createAsyncThunk(
   'data/reviews',
   async (movieId: string) => {
-    const {data} = await api.get<ReviewProps[]>(getCommentsLink(movieId));
+    const {data} = await API.get<ReviewProps[]>(getCommentsLink(movieId));
     return data;
   },
 );
@@ -70,8 +81,10 @@ const movieSlice = createSlice({
       state.movieLoading = false;
     });
     builder.addCase(getMovieAction.rejected, (state, action) => {
+      toast.error(`Failed to get movie with id ${action.meta.arg}`);
       state.movieLoadingError = action.error;
       state.movieLoading = false;
+      useNavigate()(PageLink.NotFound);
     });
 
     builder.addCase(getSimilarMoviesAction.pending, (state, _) => {
@@ -82,6 +95,7 @@ const movieSlice = createSlice({
       state.similarMoviesLoading = false;
     });
     builder.addCase(getSimilarMoviesAction.rejected, (state, action) => {
+      toast.error(`Failed to get similar movies for movie with id ${action.meta.arg}`);
       state.similarMoviesLoadingError = action.error;
       state.similarMoviesLoading = false;
     });
@@ -94,8 +108,17 @@ const movieSlice = createSlice({
       state.reviewsLoading = false;
     });
     builder.addCase(getReviewsAction.rejected, (state, action) => {
+      toast.error(`Failed to get reviews movies for movie with id ${action.meta.arg}`);
       state.reviewsLoadingError = action.error;
       state.reviewsLoading = false;
+    });
+
+    builder.addCase(updateMovieWithoutLoadingAction.fulfilled, (state, action) => {
+      state.movie = action.payload;
+    });
+    builder.addCase(updateMovieWithoutLoadingAction.rejected, (state, action) => {
+      toast.error(`Failed to update movie with id ${action.meta.arg}`);
+      state.movieLoadingError = action.error;
     });
   }
 });

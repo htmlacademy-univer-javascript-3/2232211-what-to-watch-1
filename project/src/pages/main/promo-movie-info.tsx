@@ -1,17 +1,26 @@
 import type { Movie } from '../../types/movie';
 import MovieButton from '../../components/buttons/movie-button';
 import PlayIcon from '../../components/icons/play-icon';
-import AddIcon from '../../components/icons/add-icon';
+import { getPlayerLink } from '../../utils/links';
+import { useNavigate } from 'react-router-dom';
+import MyListButton from '../../components/buttons/my-list-button';
+import { useAppDispatch } from '../../hooks/store-helpers';
+import { updatePromoMovieWithoutLoadingAction } from '../../store/slices/promo-movie-slice';
 
 interface SelectedMovieInfoProps {
   promoMovie: Movie;
-  movies: Movie[];
 }
 
 export default function PromoMovieInfo({
   promoMovie,
-  movies
 }: SelectedMovieInfoProps) {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const updateMovieWithoutLoadingHandler = async () => {
+    await dispatch(updatePromoMovieWithoutLoadingAction());
+  };
+
   return (
     <>
       <div className='film-card__bg'>
@@ -32,12 +41,13 @@ export default function PromoMovieInfo({
             </p>
 
             <div className='film-card__buttons'>
-              <MovieButton icon={<PlayIcon/>}>
+              <MovieButton icon={<PlayIcon/>} onClick={() => navigate(getPlayerLink(promoMovie.id))}>
                 Play
               </MovieButton>
-              <MovieButton icon={<AddIcon/>} moviesListCount={movies.filter((m) => m.isFavorite).length}>
-                My list
-              </MovieButton>
+              <MyListButton
+                movie={promoMovie}
+                onUpdateMovieWithoutLoading={updateMovieWithoutLoadingHandler}
+              />
             </div>
           </div>
         </div>

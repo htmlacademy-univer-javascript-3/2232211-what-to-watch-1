@@ -13,7 +13,7 @@ export default function SignOutPage() {
       .then(() => {
         navigate(PageLink.Main, { replace: true });
       });
-  }, []);
+  }, [dispatch, navigate]);
 
   return <span />;
 }

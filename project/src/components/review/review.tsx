@@ -13,6 +13,10 @@ export interface ReviewProps {
 
 export function Review({comment, date, id, rating, user}: ReviewProps) {
   const dateInstance = new Date(date);
+  const [day, month, year] = dateInstance
+    .toLocaleDateString('default', {year: 'numeric', month: 'long', day: 'numeric'})
+    .split(' ');
+
   return (
     <div className='review' key={id}>
       <blockquote className='review__quote'>
@@ -26,7 +30,7 @@ export function Review({comment, date, id, rating, user}: ReviewProps) {
             className='review__date'
             dateTime={dateInstance.toISOString()}
           >
-            {dateInstance.toISOString().slice(0, 10)}
+            {`${month} ${day}, ${year}`}
           </time>
         </footer>
       </blockquote>
