@@ -60,7 +60,7 @@ const authorizationSlice = createSlice({
       state.authorizationError = undefined;
     });
     builder.addCase(loginAction.rejected, (state, action) => {
-      toast('Failed to login');
+      toast.error('Failed to login');
       state.authorizationStatus = AuthorizationStatus.NoAuth;
       state.authorizationError = action.error;
     });

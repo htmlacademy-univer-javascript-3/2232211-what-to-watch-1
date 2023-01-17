@@ -49,7 +49,7 @@ const moviesSlice = createSlice({
       state.moviesLoading = false;
     });
     builder.addCase(getMoviesAction.rejected, (state, action) => {
-      toast('Failed to get movies');
+      toast.error('Failed to get movies');
       state.moviesLoadingError = action.error;
       state.moviesLoading = false;
     });

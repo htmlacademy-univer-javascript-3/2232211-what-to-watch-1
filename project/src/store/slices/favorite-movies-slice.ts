@@ -46,7 +46,7 @@ const favoriteMoviesSlice = createSlice({
       state.favoriteMoviesLoading = false;
     });
     builder.addCase(getFavoriteMoviesAction.rejected, (state, action) => {
-      toast('Failed to get favorite movies');
+      toast.error('Failed to get favorite movies');
       state.favoriteMoviesLoadingError = action.error;
       state.favoriteMoviesLoading = false;
     });
@@ -64,7 +64,7 @@ const favoriteMoviesSlice = createSlice({
       state.favoriteMoviesLoading = false;
     });
     builder.addCase(setFavoriteMovieAction.rejected, (state, action) => {
-      toast('Failed to set favorite movie');
+      toast.error('Failed to set favorite movie');
       state.favoriteMoviesLoadingError = action.error;
       state.favoriteMoviesLoading = false;
     });

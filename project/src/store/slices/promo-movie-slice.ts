@@ -46,7 +46,7 @@ const promoMovieSlice = createSlice({
       state.promoMovieLoading = false;
     });
     builder.addCase(getPromoMovieAction.rejected, (state, action) => {
-      toast('Failed to get promo movie');
+      toast.error('Failed to get promo movie');
       state.promoMovieLoadingError = action.error;
       state.promoMovieLoading = false;
     });
@@ -54,7 +54,7 @@ const promoMovieSlice = createSlice({
       state.promoMovie = action.payload;
     });
     builder.addCase(updatePromoMovieWithoutLoadingAction.rejected, (state, action) => {
-      toast('Failed to update promo movie');
+      toast.error('Failed to update promo movie');
       state.promoMovieLoadingError = action.error;
     });
   }
