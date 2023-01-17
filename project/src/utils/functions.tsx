@@ -4,13 +4,13 @@ import { getMovieLink } from './links';
 
 interface FilteredMovieItemsProps {
   movies: Movie[];
-  filter: (movie: Movie) => boolean;
+  onFilter: (movie: Movie) => boolean;
   maxCount?: number;
 }
 
-export function getFilteredMovieItems({movies, filter, maxCount}: FilteredMovieItemsProps) {
+export function getFilteredMovieItems({movies, onFilter, maxCount}: FilteredMovieItemsProps) {
   let movieItems = movies
-    .filter(filter)
+    .filter(onFilter)
     .map((movie) => (
       <MovieItem
         key={movie.id}

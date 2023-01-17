@@ -46,7 +46,7 @@ export default function PromoMovieInfo({
               </MovieButton>
               <MyListButton
                 movie={promoMovie}
-                updateMovieWithoutLoadingHandler={updateMovieWithoutLoadingHandler}
+                onUpdateMovieWithoutLoading={updateMovieWithoutLoadingHandler}
               />
             </div>
           </div>

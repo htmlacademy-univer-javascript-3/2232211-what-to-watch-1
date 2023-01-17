@@ -55,7 +55,7 @@ export default function MoviePage() {
 
   const sameGenreMovies = getFilteredMovieItems({
     movies: similarMovies,
-    filter: (m) => m.genre === movie.genre && m.id !== movie.id,
+    onFilter: (m) => m.genre === movie.genre && m.id !== movie.id,
     maxCount: 4
   });
 
@@ -90,7 +90,7 @@ export default function MoviePage() {
                 </MovieButton>
                 <MyListButton
                   movie={movie}
-                  updateMovieWithoutLoadingHandler={updateMovieWithoutLoadingHandler}
+                  onUpdateMovieWithoutLoading={updateMovieWithoutLoadingHandler}
                 />
                 {authorizationStatus === AuthorizationStatus.Auth && (
                   <Link to={getAddReviewLink(movie.id)} className='btn film-card__button'>

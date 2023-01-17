@@ -22,7 +22,7 @@ export default function Tabs({children, value, onValueChange, className, activeT
     <TABS_CONTEXT.Provider
       value={{
         activeTab: value,
-        switchTab,
+        onSwitchTab: switchTab,
         activeTabClassName
       }}
     >

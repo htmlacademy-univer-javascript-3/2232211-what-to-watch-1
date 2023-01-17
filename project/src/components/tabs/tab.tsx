@@ -15,7 +15,7 @@ export default function Tab({id, className, children}: TabProps) {
       {(context) => (
         <li
           className={`${className} ${context.activeTab === id && context.activeTabClassName}`}
-          onClick={() => context.switchTab(id)}
+          onClick={() => context.onSwitchTab(id)}
         >
           {children}
         </li>)}

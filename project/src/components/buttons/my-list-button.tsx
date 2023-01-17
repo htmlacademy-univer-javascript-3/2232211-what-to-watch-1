@@ -11,10 +11,10 @@ import { PageLink } from '../../utils/links';
 
 interface MyListButtonProps {
   movie: Movie;
-  updateMovieWithoutLoadingHandler: () => Promise<void>;
+  onUpdateMovieWithoutLoading: () => Promise<void>;
 }
 
-export default function MyListButton({movie, updateMovieWithoutLoadingHandler}: MyListButtonProps) {
+export default function MyListButton({movie, onUpdateMovieWithoutLoading}: MyListButtonProps) {
   const { favoriteMovies, favoriteMoviesLoading } = useAppSelector((state) => state.favoriteMovies);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ export default function MyListButton({movie, updateMovieWithoutLoadingHandler}: 
       movieId: movie.id,
       status: (Number(!movie.isFavorite))
     })));
-    await updateMovieWithoutLoadingHandler();
+    await onUpdateMovieWithoutLoading();
     setMyListButtonClick(false);
   };
 

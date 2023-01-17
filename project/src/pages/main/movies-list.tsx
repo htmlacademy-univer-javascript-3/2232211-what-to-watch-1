@@ -17,7 +17,7 @@ export default function MoviesList({movies}: MoviesListProps) {
 
   const filteredByGenreMovies = getFilteredMovieItems({
     movies,
-    filter: (movie) => activeTab === ALL_GENRES_TAB || movie.genre === activeTab,
+    onFilter: (movie) => activeTab === ALL_GENRES_TAB || movie.genre === activeTab,
     maxCount: moviesToViewCount
   });
 

@@ -28,7 +28,7 @@ export default function MyListPage() {
 
   const favoriteMoviesItem = getFilteredMovieItems({
     movies: favoriteMovies,
-    filter: (_) => true
+    onFilter: (_) => true
   });
 
   return (
