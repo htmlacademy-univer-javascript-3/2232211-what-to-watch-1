@@ -21,6 +21,7 @@ import {
 } from '../../store/slices/movie-slice';
 import { getFilteredMovieItems } from '../../utils/functions';
 import MyListButton from '../../components/buttons/my-list-button';
+import { AuthorizationStatus } from '../../constants';
 
 enum TabId {
   Overview = 'Overview',
@@ -46,6 +47,7 @@ export default function MoviePage() {
   }, [dispatch, movieId]);
 
   const { movie, movieLoading, similarMovies, similarMoviesLoading, reviews, reviewsLoading } = useAppSelector((state) => state.movie);
+  const { authorizationStatus } = useAppSelector((state) => state.authorization);
 
   if (movieLoading || similarMoviesLoading || !movie) {
     return <Spinner>Loading..</Spinner>;
@@ -90,9 +92,11 @@ export default function MoviePage() {
                   movie={movie}
                   updateMovieWithoutLoadingHandler={updateMovieWithoutLoadingHandler}
                 />
-                <Link to={getAddReviewLink(movie.id)} className='btn film-card__button'>
-                  Add review
-                </Link>
+                {authorizationStatus === AuthorizationStatus.Auth && (
+                  <Link to={getAddReviewLink(movie.id)} className='btn film-card__button'>
+                    Add review
+                  </Link>
+                )}
               </div>
             </div>
           </div>
