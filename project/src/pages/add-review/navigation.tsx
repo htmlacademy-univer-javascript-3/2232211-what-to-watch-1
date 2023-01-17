@@ -1,6 +1,6 @@
 import { Movie } from '../../types/movie';
 import { Link } from 'react-router-dom';
-import { getMovieLink, PageLink } from '../../utils/links';
+import { getMovieLink } from '../../utils/links';
 import React from 'react';
 
 interface NavigationProps {
@@ -17,7 +17,7 @@ export default function Navigation({movie}: NavigationProps) {
           </Link>
         </li>
         <li className='breadcrumbs__item'>
-          <Link to={PageLink.AddReview} className='breadcrumbs__link'>
+          <Link to='#' className='breadcrumbs__link'>
             Add review
           </Link>
         </li>
