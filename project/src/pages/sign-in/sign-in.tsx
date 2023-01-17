@@ -31,7 +31,7 @@ export default function SignInPage({showInvalidEmailError, showCantRecognizeMess
         email: emailField,
         password: passwordField,
       });
-      navigate(PageLink.Main);
+      navigate(-1);
     }
   };
 
