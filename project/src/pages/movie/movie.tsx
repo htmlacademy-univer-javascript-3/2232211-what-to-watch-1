@@ -41,6 +41,8 @@ export default function MoviePage() {
       dispatch(getMovieAction(movieId)).catch(() => navigate(PageLink.NotFound));
       dispatch(getSimilarMoviesAction(movieId));
       dispatch(getReviewsAction(movieId));
+    } else {
+      navigate(PageLink.NotFound);
     }
   }, [dispatch, movieId]);
 
