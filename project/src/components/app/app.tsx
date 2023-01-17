@@ -9,13 +9,14 @@ import NotFoundPage from '../../pages/not-found/not-found';
 import { PageLink } from '../../utils/links';
 import PrivateRoute from '../private-route/private-route';
 import SignOutPage from '../../pages/sign-out/sign-out';
-import { useAppSelector } from '../../hooks/store-helpers';
+import { useAppDispatch, useAppSelector } from '../../hooks/store-helpers';
 import { AuthorizationStatus } from '../../constants';
 import Spinner from '../spinner/spinner';
 import UnauthorizedRoute from '../unauthorized-route/unauthorized-route';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import React from 'react';
+import { getFavoriteMoviesAction } from '../../store/slices/favorite-movies-slice';
 
 function AppRoutes() {
   return useRoutes(
@@ -34,7 +35,12 @@ function AppRoutes() {
 }
 
 function App(): JSX.Element {
-  const {authorizationStatus} = useAppSelector((state) => state.authorization);
+  const dispatch = useAppDispatch();
+
+  const { authorizationStatus } = useAppSelector((state) => state.authorization);
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    dispatch(getFavoriteMoviesAction());
+  }
 
   if (authorizationStatus === AuthorizationStatus.Unknown) {
     return <Spinner>Waiting authorization..</Spinner>;
