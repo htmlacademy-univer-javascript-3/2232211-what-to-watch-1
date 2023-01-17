@@ -3,7 +3,7 @@ import Header from '../../components/header/header';
 import MovieButton from '../../components/buttons/movie-button';
 import PlayIcon from '../../components/icons/play-icon';
 import Copyright from '../../components/copyright/copyright';
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import type { Movie } from '../../types/movie';
 import { useEffect, useState} from 'react';
 import Tabs from '../../components/tabs/tabs';
@@ -38,7 +38,7 @@ export default function MoviePage() {
 
   useEffect(() => {
     if (movieId) {
-      dispatch(getMovieAction(movieId));
+      dispatch(getMovieAction(movieId)).catch(() => navigate(PageLink.NotFound));
       dispatch(getSimilarMoviesAction(movieId));
       dispatch(getReviewsAction(movieId));
     }
@@ -47,12 +47,8 @@ export default function MoviePage() {
   const { movie, movieLoading, similarMovies, similarMoviesLoading, reviews, reviewsLoading } = useAppSelector((state) => state.movie);
   const { authorizationStatus } = useAppSelector((state) => state.authorization);
 
-  if (movieLoading || similarMoviesLoading) {
+  if (movieLoading || similarMoviesLoading || !movie) {
     return <Spinner>Loading..</Spinner>;
-  }
-
-  if (!movie) {
-    return <Navigate to={PageLink.NotFound} />;
   }
 
   const sameGenreMovies = getFilteredMovieItems({

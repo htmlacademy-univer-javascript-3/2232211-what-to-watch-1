@@ -4,6 +4,8 @@ import { Movie } from '../../types/movie';
 import { getCommentsLink, getMovieLink, getSimilarMoviesLink } from '../../services/api-routes';
 import { ReviewProps } from '../../components/review/review';
 import { Namespace } from '../../constants';
+import { useNavigate } from 'react-router-dom';
+import { PageLink } from '../../utils/links';
 
 export const getMovieAction = createAsyncThunk(
   'data/getMovie',
@@ -80,6 +82,7 @@ const movieSlice = createSlice({
     builder.addCase(getMovieAction.rejected, (state, action) => {
       state.movieLoadingError = action.error;
       state.movieLoading = false;
+      useNavigate()(PageLink.NotFound);
     });
 
     builder.addCase(getSimilarMoviesAction.pending, (state, _) => {
